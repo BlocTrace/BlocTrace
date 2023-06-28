@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.default {
+  max-width: 130rem;
+}
+
+.small {
+  max-width: 64rem;
+}
