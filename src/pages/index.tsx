@@ -42,7 +42,9 @@ type AuthenticatedPageProps = InferGetServerSidePropsType<
   typeof getServerSideProps
 >;
 
-export default function Home({ address }: AuthenticatedPageProps) {
+export default function Home({
+  address,
+}: AuthenticatedPageProps) {
   // const [totalSupply, setTotalSupply] = useState(null);
   // const [error, setError] = useState("");
 
@@ -130,7 +132,7 @@ export default function Home({ address }: AuthenticatedPageProps) {
           Our Supply Chain System is Built For
         </Heading>
         <SimpleGrid className={styles.simpleGrid} minChildWidth="140px">
-          <CardButton href="/oems">
+          <CardButton href="/mint">
             <Image src="factory-icon.svg" alt="Mint Yamato Tokens" />
             <Heading color="brand.20" margin="1.5rem" size="md">
               OEM's
@@ -141,7 +143,7 @@ export default function Home({ address }: AuthenticatedPageProps) {
             </Text>
           </CardButton>
 
-          <CardButton href="/couriers">
+          <CardButton href="/vote">
             <Image src="shipping-icon.svg" alt="Vote" />
             <Heading color="brand.20" margin="1.5rem" size="md">
               Shippers/Couriers
@@ -152,7 +154,7 @@ export default function Home({ address }: AuthenticatedPageProps) {
             </Text>
           </CardButton>
 
-          <CardButton href="/product_makers">
+          <CardButton href="/proposals">
             <Image
               src="/circuitboard-icon.svg"
               alt="proposals image"
@@ -167,7 +169,7 @@ export default function Home({ address }: AuthenticatedPageProps) {
             </Text>
           </CardButton>
 
-          <CardButton href="/retailers">
+          <CardButton href="/docs">
             <Image src="retailer-icon.svg" alt="Docs Image" />
             <Heading color="brand.20" margin="1.5rem" size="md">
               Retailers/Distributors
