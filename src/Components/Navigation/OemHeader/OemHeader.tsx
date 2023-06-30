@@ -9,10 +9,10 @@ import {
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./Header.module.css";
+import styles from "./OemHeader.module.css";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-export default function Header() {
+export default function OemHeader() {
   const backgroundColor = useToken("colors", "brand.60");
   const [scrolled, setScrolled] = React.useState(false);
 
@@ -72,7 +72,7 @@ export default function Header() {
           </Button>
         </Link>
 
-        <Link href="/couriers" shallow>
+        <Link href="/vote" shallow>
           <Button
             color="brand.0"
             aria-current="page"
@@ -83,25 +83,11 @@ export default function Header() {
               transition: "ease-in-out 0.2s",
             }}
           >
-            COURIERS
-          </Button>
-        </Link>
-        <Link href="/product_makers" shallow>
-          <Button
-            color="brand.0"
-            aria-current="page"
-            _hover={{
-              borderColor: "brand.300",
-              borderBottomWidth: "2px",
-              borderRadius: "0",
-              transition: "ease-in-out 0.2s",
-            }}
-          >
-            PRODUCT MAKERS
+            SHIPPERS
           </Button>
         </Link>
 
-        <Link href="/retailers" shallow>
+        <Link href="/proposals" shallow>
           <Button
             color="brand.0"
             _hover={{
