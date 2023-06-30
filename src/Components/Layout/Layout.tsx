@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>BlocTrace</title>
+        <title>Yamato Voting</title>
       </Head>
       {/* this is the whole screen background*/}
       <div className={styles.flex_background}>

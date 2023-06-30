@@ -17,7 +17,7 @@
     padding: 4rem 10rem 4rem 8rem;
   }
 
-  .header .header_logo {
+  .header .yamato_logo {
     margin-left: 3rem;
   }
 
@@ -33,7 +33,7 @@
     margin-left: 3rem;
   }
 }
-.header_logo  {
+.yamato_logo {
   width: 20rem;
   cursor: pointer;
 }
