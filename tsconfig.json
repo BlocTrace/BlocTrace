@@ -19,6 +19,6 @@
       "*": ["src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/signin/index.jsx", "src/pages/user/index.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/signup/index.jsx", "src/pages/user/index.jsx", "src/pages/oems/account/index.jsx", "src/pages/oems/index.tsx", "src/pages/oems/create_batch/index.jsx", "src/pages/oems/manage_batch/index.jsx"],
   "exclude": ["node_modules"]
 }

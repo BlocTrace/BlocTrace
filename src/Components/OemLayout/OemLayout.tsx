@@ -2,7 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import Head from "next/head";
 import Container from "../Container/Container";
 import Footer from "../Navigation/Footer/Footer";
-import Header from "../Navigation/Header/Header";
+import OemHeader from "../Navigation/OemHeader/OemHeader";
 import React from "react";
 import styles from "./OemLayout.module.css";
 
@@ -16,7 +16,7 @@ export default function OemLayout({ children }: { children: React.ReactNode }) {
       </Head>
       {/* this is the whole screen background*/}
       <div className={styles.flex_background}>
-        <Header />
+        <OemHeader />
         <Container>
           <Flex direction="column" minH="140vh" textAlign="center">
             <Box

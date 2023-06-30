@@ -47,9 +47,9 @@ export default function OemHeader() {
       }}
     >
       <Link href="/" shallow>
-        <Box className={styles.yamato_logo}>
+        <Box className={styles.header_logo}>
           <Image
-            src="bloctrace-logo-long-light.svg"
+            src="/bloctrace-logo-long-light.svg"
             alt="BlocTrace Logo"
             width={2000}
             height={400}
@@ -68,11 +68,11 @@ export default function OemHeader() {
               transition: "ease-in-out 0.2s",
             }}
           >
-            OEMS
+            DASHBOARD
           </Button>
         </Link>
 
-        <Link href="/vote" shallow>
+        <Link href="/oems/create_batch" shallow>
           <Button
             color="brand.0"
             aria-current="page"
@@ -83,11 +83,11 @@ export default function OemHeader() {
               transition: "ease-in-out 0.2s",
             }}
           >
-            SHIPPERS
+            CREATE BATCH
           </Button>
         </Link>
 
-        <Link href="/proposals" shallow>
+        <Link href="/oems/manage_batch" shallow>
           <Button
             color="brand.0"
             _hover={{
@@ -97,12 +97,12 @@ export default function OemHeader() {
               transition: "ease-in-out 0.2s",
             }}
           >
-            RETAILERS
+            MANAGE BATCH
           </Button>
         </Link>
 
         <Link
-          href="https://github.com/Sahil24-lab/BlocTrace"
+          href="/oems/account"
           target="_blank"
           rel="noopener noreferrer"
           shallow
@@ -116,7 +116,7 @@ export default function OemHeader() {
               transition: "ease-in-out 0.2s",
             }}
           >
-            DOCS
+            ACCOUNT
           </Button>
         </Link>
       </ButtonGroup>

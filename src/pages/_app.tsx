@@ -8,7 +8,17 @@ import {
   RainbowKitProvider,
   darkTheme,
   DisclaimerComponent,
+  connectorsForWallets,
 } from "@rainbow-me/rainbowkit";
+
+import {
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+  metaMaskWallet,
+  ledgerWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+
 import { createConfig, configureChains, WagmiConfig } from "wagmi";
 import { avalanche, avalancheFuji } from "wagmi/chains";
 import { infuraProvider } from "wagmi/providers/infura";
@@ -27,7 +37,6 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "../styles/globals.css";
 
-import { mainnet } from "wagmi/chains";
 import { Session } from "next-auth";
 
 const walletConnectProjectId: string | undefined =
@@ -50,11 +59,27 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [infuraProvider({ apiKey: infuraApiKey! }), publicProvider()]
 );
 
-const { connectors } = getDefaultWallets({
-  appName: "BlocTrace",
-  projectId: walletConnectProjectId!,
-  chains,
-});
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [
+      injectedWallet({ chains }),
+      rainbowWallet({ projectId: walletConnectProjectId!, chains }),
+      walletConnectWallet({ projectId: walletConnectProjectId!, chains }),
+      metaMaskWallet({
+        projectId: walletConnectProjectId!,
+        chains,
+        shimDisconnect: true,
+      }),
+    ],
+  },
+]);
+
+// const { connectors } = getDefaultWallets({
+//   appName: "BlocTrace",
+//   projectId: walletConnectProjectId!,
+//   chains,
+// });
 
 const wagmiConfig = createConfig({
   autoConnect: true,

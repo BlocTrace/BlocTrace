@@ -27,7 +27,7 @@ function SignIn() {
         message,
         signature,
         redirect: false,
-        callbackUrl: "/user",
+        callbackUrl: "/oems", // take the user to the oem dashboard
       });
       /**
        * instead of using signIn(..., redirect: "/user")

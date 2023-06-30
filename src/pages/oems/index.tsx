@@ -1,5 +1,5 @@
 //import styles from "../styles/Home.module.css";
-import Layout from "../../Components/Layout/Layout";
+import OemLayout from "../../Components/OemLayout/OemLayout";
 import Head from "next/head";
 import {
   Box,
@@ -92,7 +92,7 @@ const Mint: NextPage = () => {
   }
   return (
     <>
-      <Layout>
+      <OemLayout>
         <Head>
           <title>BlocTrace - OEMs</title>
           {/* <meta name="description" content="noindex,nofollow" /> */}
@@ -118,7 +118,7 @@ const Mint: NextPage = () => {
           {/* Mint Tokens */}
           <DarkBackground children={undefined}></DarkBackground>
         </Flex>
-      </Layout>
+      </OemLayout>
     </>
   );
 };

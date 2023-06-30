@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getSession } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
@@ -43,22 +44,12 @@ type AuthenticatedPageProps = InferGetServerSidePropsType<
 >;
 
 export default function Home({ address }: AuthenticatedPageProps) {
-  // const [totalSupply, setTotalSupply] = useState(null);
-  // const [error, setError] = useState("");
+  const router = useRouter();
 
-  // const fetchTotalSupply = async () => {
-  //   try {
-  //     const data = await tokenService.getTotalSupply();
-  //     setTotalSupply(data);
-  //   } catch (error) {
-  //     setError("Error fetching total supply.");
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchTotalSupply();
-  // }, []);
-
+  const handleSignUpClick = () => {
+    // Navigate to another page
+    router.push("/signup");
+  };
   return (
     <>
       <Layout>
@@ -88,7 +79,9 @@ export default function Home({ address }: AuthenticatedPageProps) {
               <br /> solution to track their products from raw materials to the
               end product
             </Text>
-            <Button>Get Started with BlocTrace</Button>
+            <Button onClick={handleSignUpClick}>
+              Get Started with BlocTrace
+            </Button>
           </Box>
           <Box>
             <Image
