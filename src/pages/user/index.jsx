@@ -6,19 +6,21 @@ function User({ user }) {
     <div>
       <h4>User session:</h4>
       <pre>{JSON.stringify(user, null, 2)}</pre>
-      <button onClick={() => signOut({ redirect: "/signin" })}>Sign out</button>
+      <button onClick={() => signOut({ redirect: "oems/sign_in" })}>
+        Sign out
+      </button>
     </div>
   );
 }
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-
+  console.log("session: ", session);
   // redirect if not authenticated
   if (!session) {
     return {
       redirect: {
-        destination: "/signin",
+        destination: "oems/sign_in",
         permanent: false,
       },
     };

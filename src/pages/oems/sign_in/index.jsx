@@ -4,6 +4,10 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { signIn, useSession } from "next-auth/react";
 import { useAccount, useSignMessage, useNetwork } from "wagmi";
 import { useEffect } from "react";
+import { Box, Button, Flex, Heading, Image } from "@chakra-ui/react";
+import DarkBackground from "Components/DarkBackground/DarkBackground";
+import OemLayout from "../../../Components/OemLayout/OemLayout";
+import Head from "next/head";
 
 function SignIn() {
   const { isConnected, address } = useAccount();
@@ -41,10 +45,61 @@ function SignIn() {
   }, [status, isConnected]);
 
   return (
-    <div>
-      <h3>Web3 Authentication</h3>
-      <ConnectButton />
-    </div>
+    <>
+      <OemLayout>
+        <Head>
+          <title>BlocTrace - Sign In</title>
+          {/* <meta name="description" content="noindex,nofollow" /> */}
+        </Head>
+        <Flex justifyContent="center" direction="column" marginBottom="250px">
+          <Heading
+            as="h2"
+            fontSize="5rem"
+            color="brand.0"
+            fontWeight="medium"
+            size="lg"
+            p="8rem"
+            mb="1rem"
+            textAlign="center"
+          >
+            Sign In
+          </Heading>
+          <DarkBackground>
+            <Flex
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              textAlign="center"
+            >
+              <Heading
+                as="h2"
+                fontSize="4rem"
+                color="brand.0"
+                fontWeight="medium"
+                size="lg"
+                p="4rem 0rem 4rem 0"
+                mb="1rem"
+                textAlign="center"
+              >
+                Sign in to view your manage your account
+              </Heading>
+              <Heading
+                as="h2"
+                fontSize="2rem"
+                color="brand.0"
+                fontWeight="medium"
+                size="lg"
+                p="4rem 0rem 4rem 0"
+                mb="1rem"
+                textAlign="center"
+              >
+                <ConnectButton label="Sign In"></ConnectButton>
+              </Heading>
+            </Flex>
+          </DarkBackground>
+        </Flex>
+      </OemLayout>
+    </>
   );
 }
 

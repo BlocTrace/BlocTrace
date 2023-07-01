@@ -51,8 +51,9 @@ export default function Retailers() {
                 fontWeight="medium"
                 size="lg"
                 p="32rem"
-                mb="1rem"
+                mb="10rem"
                 textAlign="center"
+                boxShadow="xl"
               >
                 COMING SOON
               </Heading>

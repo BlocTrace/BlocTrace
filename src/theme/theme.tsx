@@ -8,6 +8,7 @@ const myTheme = extendTheme({
       0: "#fff", // White
       20: "#e8f1f2", // Light blue-gray
       40: "#20C8CE", // Bright blue
+      50: "#e8f1f2", // light orange
       60: "#332018", // Dark Orange
       70: "#307993", // Dark teal
       80: "#446990", // Navy blue
@@ -66,7 +67,7 @@ const myTheme = extendTheme({
     lg: "62em",
     xl: "80em",
   },
-  components: { NumberInput: inputTheme, Button, Spinner },
+  components: { Button, Spinner },
 });
 
 export default myTheme;

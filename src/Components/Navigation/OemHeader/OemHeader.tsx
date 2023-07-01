@@ -12,10 +12,22 @@ import Link from "next/link";
 import styles from "./OemHeader.module.css";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
+import { signOut } from "next-auth/react";
+
+import { useAccount } from "wagmi";
+import { useRouter } from "next/router";
+
 export default function OemHeader() {
   const backgroundColor = useToken("colors", "brand.60");
   const [scrolled, setScrolled] = React.useState(false);
+  const router = useRouter();
 
+  const account = useAccount({
+    onDisconnect() {
+      console.log("Disconnected");
+      router.push("/"); // Redirect the user after signing out
+    },
+  });
   React.useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 0;
@@ -101,12 +113,7 @@ export default function OemHeader() {
           </Button>
         </Link>
 
-        <Link
-          href="/oems/account"
-          target="_blank"
-          rel="noopener noreferrer"
-          shallow
-        >
+        <Link href="/oems/account" shallow>
           <Button
             color="brand.0"
             _hover={{

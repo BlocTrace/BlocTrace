@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div className={styles.flex_background}>
         <Header />
         <Container>
-          <Flex direction="column" minH="140vh" textAlign="center">
+          <Flex direction="column" minH="100vh" textAlign="center">
             <Box
               bg="transparent"
               backgroundSize="cover"

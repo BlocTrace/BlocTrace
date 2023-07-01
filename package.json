@@ -16,6 +16,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.3",
+    "@formspree/react": "^2.4.4",
     "@moralisweb3/next": "^2.22.3",
     "@rainbow-me/rainbowkit": "^1.0.4",
     "@rainbow-me/rainbowkit-siwe-next-auth": "^0.2.0",

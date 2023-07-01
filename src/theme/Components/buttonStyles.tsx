@@ -30,7 +30,6 @@ export const buttonStyles = {
       borderRadius: "10px",
       py: "27px",
       px: "70px",
-      bgGradient: "linear(to-b, brand.500, brand.600)",
       fontSize: "md",
       _hover: {
         bgGradient:
@@ -44,6 +43,31 @@ export const buttonStyles = {
         transform: "scale(0.98)",
       },
       transition: "box-shadow 0.2s, transform 0.2s",
+    },
+    "signout-button": {
+      // "linear-gradient(to right, #20C8CE 0%, #6441a5 51%, #20C8CE 100%)" #131617
+      background:
+        "linear-gradient(to right, #C43338 0%, #ffbf00 51%, #C43338 100%)",
+      margin: "5px",
+      h: "50px", // Update py to my
+      px: "70px",
+      textAlign: "center",
+      textTransform: "uppercase",
+      transition: "0.5s",
+      backgroundSize: "200% auto",
+      color: "white",
+      boxShadow: "0 0 10px #eee",
+      borderRadius: "10px",
+      display: "block",
+      _hover: {
+        backgroundPosition: "right center",
+        color: "#fff",
+        textDecoration: "none",
+      },
+      _active: {
+        boxShadow: "none",
+        transform: "scale(0.98)",
+      },
     },
     // Add the new variant "btn-grad" based on the provided brand colors
     "button-gradient": {

@@ -13,8 +13,6 @@ import {
 import CardButton from "Components/CardButton/CardButton";
 import styles from "../styles/Home.module.css";
 import DarkBackground from "Components/DarkBackground/DarkBackground";
-import { tokenService } from "./api/tokenService";
-import { useEffect, useState } from "react";
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getSession } from "next-auth/react";
