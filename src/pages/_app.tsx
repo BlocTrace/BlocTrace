@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
+import { AppStateProvider } from "../hooks/useAppState";
 
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
@@ -74,7 +75,6 @@ const connectors = connectorsForWallets([
     ],
   },
 ]);
- 
 
 const wagmiConfig = createConfig({
   autoConnect: true,
@@ -106,7 +106,9 @@ function MyApp({
             initialChain={parseInt(process.env.NEXT_PUBLIC_DEFAULT_CHAIN!)}
             chains={chains}
           >
-            <Component {...pageProps} />
+            <AppStateProvider>
+              <Component {...pageProps} />
+            </AppStateProvider>
           </RainbowKitProvider>
         </SessionProvider>
       </WagmiConfig>

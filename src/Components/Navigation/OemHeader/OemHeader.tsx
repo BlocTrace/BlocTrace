@@ -6,28 +6,69 @@ import {
   Spacer,
   useToken,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./OemHeader.module.css";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-import { signOut } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork, useSignMessage } from "wagmi";
 import { useRouter } from "next/router";
+import { useAuthRequestChallengeEvm } from "@moralisweb3/next";
 
 export default function OemHeader() {
   const backgroundColor = useToken("colors", "brand.60");
   const [scrolled, setScrolled] = React.useState(false);
   const router = useRouter();
-
+  const { isConnected, address } = useAccount();
+  const { chain } = useNetwork();
+  const { status } = useSession();
+  const { signMessageAsync } = useSignMessage();
+  const { push } = useRouter();
+  const { requestChallengeAsync } = useAuthRequestChallengeEvm();
   const account = useAccount({
     onDisconnect() {
-      console.log("Disconnected");
-      router.push("/"); // Redirect the user after signing out
+      router.push("/oems/sign_in"); // Redirect the user after signing out
     },
   });
+
+  useEffect(() => {
+    console.log("inside check, status", status);
+    console.log("inside check, status", isConnected);
+    const handleAuth = async () => {
+      const { message } = (await requestChallengeAsync({
+        address: address as string,
+        chainId: chain!.id,
+      })) as { id: string; profileId: string; message: string };
+
+      const signature = await signMessageAsync({ message });
+
+      // redirect user after success authentication to '/user' page
+      const { url } = (await signIn("moralis-auth", {
+        message,
+        signature,
+        redirect: false,
+        callbackUrl: "/oems", // take the user to the oem dashboard
+      })) as { url: string };
+      /**
+       * instead of using signIn(..., redirect: "/user")
+       * we get the url from callback and push it to the router to avoid page refreshing
+       */
+      push(url);
+    };
+    if (status === "unauthenticated" && !isConnected) {
+      console.log("inside initial check, status", status);
+      console.log("inside initial check, status", isConnected);
+
+      handleAuth();
+    }
+    if (status === "unauthenticated" || !isConnected) {
+      router.push("/oems/sign_in");
+    }
+  }, [status, isConnected]);
+
   React.useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 0;

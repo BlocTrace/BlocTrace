@@ -16,8 +16,10 @@ function SignIn() {
   const { signMessageAsync } = useSignMessage();
   const { push } = useRouter();
   const { requestChallengeAsync } = useAuthRequestChallengeEvm();
-
+  const router = useRouter();
   useEffect(() => {
+    console.log("inside sign_in, status", status);
+    console.log("inside sign_in, isConnected", isConnected);
     const handleAuth = async () => {
       const { message } = await requestChallengeAsync({
         address: address,
@@ -41,6 +43,9 @@ function SignIn() {
     };
     if (status === "unauthenticated" && isConnected) {
       handleAuth();
+    }
+    if (status === "authenticated" && isConnected) {
+      router.push("/oems");
     }
   }, [status, isConnected]);
 
@@ -81,7 +86,7 @@ function SignIn() {
                 mb="1rem"
                 textAlign="center"
               >
-                Sign in to view your manage your account
+                Sign in to view & manage your account
               </Heading>
               <Heading
                 as="h2"
