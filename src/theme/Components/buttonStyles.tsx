@@ -69,6 +69,7 @@ export const buttonStyles = {
         transform: "scale(0.98)",
       },
     },
+
     // Add the new variant "btn-grad" based on the provided brand colors
     "button-gradient": {
       // "linear-gradient(to right, #20C8CE 0%, #6441a5 51%, #20C8CE 100%)"
@@ -94,6 +95,22 @@ export const buttonStyles = {
         boxShadow: "none",
         transform: "scale(0.98)",
       },
+    },
+    "disabled-button": {
+      // "linear-gradient(to right, #20C8CE 0%, #6441a5 51%, #20C8CE 100%)" #131617
+      background:
+        "linear-gradient(to right, #BBBBBB 0%, #DDDDDD 51%, #BBBBBB 100%)",
+      margin: "5px",
+      h: "50px", // Update py to my
+      px: "70px",
+      textAlign: "center",
+      textTransform: "uppercase",
+      transition: "0.5s",
+      backgroundSize: "200% auto",
+      color: "##FFFFFF",
+      boxShadow: "0 0 10px #eee",
+      borderRadius: "10px",
+      display: "block",
     },
   },
   // 6. We can overwrite defaultProps

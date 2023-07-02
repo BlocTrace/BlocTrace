@@ -74,12 +74,7 @@ const connectors = connectorsForWallets([
     ],
   },
 ]);
-
-// const { connectors } = getDefaultWallets({
-//   appName: "BlocTrace",
-//   projectId: walletConnectProjectId!,
-//   chains,
-// });
+ 
 
 const wagmiConfig = createConfig({
   autoConnect: true,

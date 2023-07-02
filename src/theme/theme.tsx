@@ -1,5 +1,4 @@
 import { extendTheme } from "@chakra-ui/react";
-import { inputTheme } from "../Components/Input/Index";
 import { buttonStyles as Button } from "./Components/buttonStyles";
 import { spinnerStyles as Spinner } from "./Components/spinnerStyles";
 const myTheme = extendTheme({
