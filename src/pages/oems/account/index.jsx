@@ -42,6 +42,17 @@ const contractConfig = {
   address: oemAddress,
   abi,
 };
+import { app, database } from "../../../services/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  addDoc,
+} from "firebase/firestore";
+
+const dbInstance = collection(database, "users");
 
 // Validation function
 const validate = (values) => {
@@ -117,10 +128,41 @@ function account({ user }) {
 
   const isMinted = txSuccess;
 
- // Handle form submission logic here
-  const handleSubmit = (values) => {
-   
+  // Handle form submission logic here
+  const handleSubmit = async (values) => {
     console.log(values);
+    try {
+      const q = query(
+        collection(database, "users"),
+        where("profile_id", "==", values.profile_id)
+      );
+      console.log();
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.size === 1) {
+        const docRef = querySnapshot.docs[0].ref;
+        updateDoc(docRef, {
+          profile_id: values.profile_id,
+          wallet_address: values.wallet_address,
+          business_name: values.business_name,
+          business_number: values.business_number,
+          business_category: values.business_category,
+          email_address: values.email_address,
+        });
+        console.log("user data Updated");
+      } else {
+        addDoc(dbInstance, {
+          profile_id: values.profile_id,
+          wallet_address: values.wallet_address,
+          business_name: values.business_name,
+          business_number: values.business_number,
+          business_category: values.business_category,
+          email_address: values.email_address,
+        });
+        console.log("New user registered");
+      }
+    } catch (error) {
+      console.error("Error storing form data in the database:", error);
+    }
   };
 
   console.log(isOwned);
@@ -362,11 +404,16 @@ function account({ user }) {
                   isClosable: true,
                 })}
               {isOwned ? (
-                <Button marginTop="15px"variant="disabled-button" disabled={true}>
+                <Button
+                  marginTop="15px"
+                  variant="disabled-button"
+                  disabled={true}
+                >
                   Account Verified
                 </Button>
               ) : (
-                <Button marginTop="15px"
+                <Button
+                  marginTop="15px"
                   disabled={isMinted || !mint || isMintLoading || isMintStarted}
                   className="button"
                   data-mint-loading={isMintLoading}
@@ -405,32 +452,3 @@ export async function getServerSideProps(context) {
 }
 
 export default account;
-
-{
-  /* <Image
-borderRadius="15px"
-w="370px"
-src="/nft_shield.svg"
-alt="Image"
-/>
-{isOwned ? (
-
-<Badge
-  fontSize="25px"
-  margin="40px 0px 0px 0px"
-  variant="solid"
-  colorScheme="green"
->
-  Account Verified
-</Badge>
-) : (
-<Badge
-  fontSize="25px"
-  margin="40px 0px 0px 0px"
-  variant="solid"
-  colorScheme="red"
->
-  UnVerified
-</Badge>
-)} */
-}
