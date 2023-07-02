@@ -117,8 +117,9 @@ function account({ user }) {
 
   const isMinted = txSuccess;
 
+ // Handle form submission logic here
   const handleSubmit = (values) => {
-    // Handle form submission logic here
+   
     console.log(values);
   };
 
@@ -200,136 +201,183 @@ function account({ user }) {
             </Box>
 
             {/* User data */}
-
-            <Flex flexDirection="column" alignItems="left" margin="30px">
-              <FormControl>
-                <FormLabel className={styles.label} marginTop="5px">
-                  Profile ID
-                </FormLabel>
-                <Input
-                  isRequired
-                  h="35px"
-                  marginBottom="15px"
-                  onChange={handleInputChange}
-                  isDisabled={true}
-                  className={styles.input}
-                  color="brand.20"
-                  name="profile_id"
-                  defaultValue={user.profileId}
-                />
-
-                <FormLabel className={styles.label}>Wallet Address</FormLabel>
-                <Input
-                  isRequired
-                  h="35px"
-                  marginBottom="15px"
-                  onChange={handleInputChange}
-                  isDisabled={true}
-                  className={styles.input}
-                  color="brand.20"
-                  name="profile_id"
-                  defaultValue={user.address}
-                />
-
-                <FormLabel className={styles.label}>Business Name</FormLabel>
-                <Input
-                  isRequired
-                  h="35px"
-                  marginBottom="15px"
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  color="brand.20"
-                  name="business_name"
-                />
-
-                <FormLabel className={styles.label}>Business Number</FormLabel>
-                <Input
-                  isRequired
-                  h="35px"
-                  marginBottom="15px"
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  color="brand.20"
-                  name="business_number"
-                />
-
-                <FormLabel className={styles.label}>
-                  Business Category
-                </FormLabel>
-                <Select
-                  isRequired
-                  h="35px"
-                  marginBottom="15px"
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  color="brand.20"
-                  name="business_catgory"
-                >
-                  <option>Original Equpment Manufacturer</option>
-                  <option>Courier / Shipper</option>
-                  <option>Product Maker</option>
-                  <option>Retailer</option>
-                </Select>
-
-                <FormLabel className={styles.label}>Email Address</FormLabel>
-                <Input
-                  isRequired
-                  h="35px"
-                  marginBottom="30px"
-                  onChange={handleInputChange}
-                  className={styles.input}
-                  color="brand.20"
-                  name="email_address"
-                  type="email"
-                />
-              </FormControl>
-
-
-              {/* Form control */ }
-              <HStack w="full" marginBottom="20px" justify="space-between">
-                {mintError &&
-                  toast({
-                    title: "Error",
-                    description: mintError.message,
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                  })}
-                {txError &&
-                  toast({
-                    title: "Error",
-                    description: txError.message,
-                    status: "error",
-                    duration: 5000,
-                    isClosable: true,
-                  })}
-                {isOwned ? (
-                  <Button variant="disabled-button" disabled={true}>
-                    Account Verified
-                  </Button>
-                ) : (
-                  <Button
-                    disabled={
-                      isMinted || !mint || isMintLoading || isMintStarted
-                    }
-                    className="button"
-                    data-mint-loading={isMintLoading}
-                    data-mint-started={isMintStarted}
-                    onClick={() => mint?.()}
-                  >
-                    {isMintLoading && "Waiting for approval"}
-                    {isMintStarted && "Verifying..."}
-                    {!isMintLoading &&
-                      !isMintStarted &&
-                      "Apply for Verification"}
-                  </Button>
-                )}
-                <Button type="submit"> Update Account</Button>
-              </HStack>
-
-              <Button variant="signout-button" onClick={handleSignOut}>
+            <Flex
+              flexDirection="column"
+              w="full"
+              alignItems="left"
+              margin="30px"
+            >
+              <Button
+                variant="signout-button"
+                onClick={handleSignOut}
+                alignSelf="flex-end"
+                w="50%"
+              >
                 Sign out
               </Button>
+
+              <Formik
+                initialValues={{
+                  profile_id: user.profileId,
+                  wallet_address: user.address,
+                  business_name: "",
+                  business_number: "",
+                  business_category: "",
+                  email_address: "",
+                }}
+                onSubmit={handleSubmit}
+                validate={validate}
+              >
+                {(formik) => (
+                  <form onSubmit={formik.handleSubmit}>
+                    <FormLabel className={styles.label}>Profile ID</FormLabel>
+                    <Field
+                      as={Input}
+                      name="profile_id"
+                      type="text"
+                      isDisabled
+                      h="35px"
+                      marginBottom="15px"
+                      className={styles.input}
+                      color="brand.20"
+                      required
+                    />
+                    <ErrorMessage name="profile_id" component="div" />
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label}>
+                        Wallet Address
+                      </FormLabel>
+                      <Field
+                        as={Input}
+                        name="wallet_address"
+                        type="text"
+                        isDisabled
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      />
+                      <ErrorMessage name="wallet_address" component="div" />
+                    </Box>
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label}>
+                        Business Name
+                      </FormLabel>
+                      <Field
+                        as={Input}
+                        name="business_name"
+                        type="text"
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      />
+                      <ErrorMessage name="business_name" component="div" />
+                    </Box>
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label}>
+                        Business Number
+                      </FormLabel>
+                      <Field
+                        as={Input}
+                        name="business_number"
+                        type="text"
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      />
+                      <ErrorMessage name="business_number" component="div" />
+                    </Box>
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label}>
+                        Business Category
+                      </FormLabel>
+                      <Field
+                        as={Select}
+                        name="business_category"
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      >
+                        <option value="">Select category</option>
+                        <option value="OEM">
+                          Original Equipment Manufacturer
+                        </option>
+                        <option value="Courier">Courier / Shipper</option>
+                        <option value="ProductMaker">Product Maker</option>
+                        <option value="Retailer">Retailer</option>
+                      </Field>
+                      <ErrorMessage name="business_category" component="div" />
+                    </Box>
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label} marginTop="5px">
+                        Email Address
+                      </FormLabel>
+                      <Field
+                        as={Input}
+                        name="email_address"
+                        type="email"
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      />
+                      <ErrorMessage name="email_address" component="div" />
+                    </Box>
+
+                    <Button w="98%" type="submit">
+                      Update Account
+                    </Button>
+                  </form>
+                )}
+              </Formik>
+
+              {/* Form control */}
+              {mintError &&
+                toast({
+                  title: "Error",
+                  description: mintError.message,
+                  status: "error",
+                  duration: 5000,
+                  isClosable: true,
+                })}
+              {txError &&
+                toast({
+                  title: "Error",
+                  description: txError.message,
+                  status: "error",
+                  duration: 5000,
+                  isClosable: true,
+                })}
+              {isOwned ? (
+                <Button marginTop="15px"variant="disabled-button" disabled={true}>
+                  Account Verified
+                </Button>
+              ) : (
+                <Button marginTop="15px"
+                  disabled={isMinted || !mint || isMintLoading || isMintStarted}
+                  className="button"
+                  data-mint-loading={isMintLoading}
+                  data-mint-started={isMintStarted}
+                  onClick={() => mint?.()}
+                >
+                  {isMintLoading && "Waiting for approval"}
+                  {isMintStarted && "Verifying..."}
+                  {!isMintLoading && !isMintStarted && "Apply for Verification"}
+                </Button>
+              )}
             </Flex>
           </Flex>
         </DarkBackground>
