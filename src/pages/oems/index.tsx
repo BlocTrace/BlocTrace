@@ -13,6 +13,8 @@ import {
   NumberInputField,
   Spacer,
   Spinner,
+  Image,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { NextPage } from "next";
 import DarkBackground from "Components/DarkBackground/DarkBackground";
@@ -27,12 +29,11 @@ import contractJson from "../../assets/Yamato.json";
 import React, { useEffect } from "react";
 import { ethers } from "ethers";
 import useAppState from "../../hooks/useAppState";
+import CardButtonSmall from "Components/CardButtonSmall/CardButtonSmall";
+import styles from "./oems.module.css";
 
 const Dashboard: NextPage = () => {
-  const { user, userProfile } = useAppState();
-
-  
-
+  const { user, userProfile, isVerified } = useAppState();
 
   return (
     <>
@@ -60,7 +61,7 @@ const Dashboard: NextPage = () => {
         >
           {/* User balances */}
           <DarkBackground>
-            <Flex flexDirection="row">
+            <Flex flexDirection="row" padding="40px 20px 0px 2px">
               {/* Left column */}
               <Box flex="1">
                 <Heading className="heading1">Business Info</Heading>
@@ -74,7 +75,7 @@ const Dashboard: NextPage = () => {
                   >
                     <Heading
                       className="label"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="right"
                       fontWeight="normal"
                     >
@@ -82,7 +83,7 @@ const Dashboard: NextPage = () => {
                     </Heading>
                     <Heading
                       className="label"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="right"
                       fontWeight="normal"
                     >
@@ -90,7 +91,7 @@ const Dashboard: NextPage = () => {
                     </Heading>
                     <Heading
                       className="label"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="right"
                       fontWeight="normal"
                     >
@@ -98,7 +99,7 @@ const Dashboard: NextPage = () => {
                     </Heading>
                     <Heading
                       className="label"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="right"
                       fontWeight="normal"
                     >
@@ -106,7 +107,7 @@ const Dashboard: NextPage = () => {
                     </Heading>
                     <Heading
                       className="label"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="right"
                       fontWeight="normal"
                     >
@@ -122,7 +123,7 @@ const Dashboard: NextPage = () => {
                   >
                     <Heading
                       className="heading2"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="left"
                       fontWeight="normal"
                     >
@@ -130,7 +131,7 @@ const Dashboard: NextPage = () => {
                     </Heading>
                     <Heading
                       className="heading2"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="left"
                       fontWeight="normal"
                     >
@@ -140,15 +141,15 @@ const Dashboard: NextPage = () => {
                     </Heading>
                     <Heading
                       className="heading2"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="left"
                       fontWeight="normal"
                     >
-                     5
+                      5
                     </Heading>
                     <Heading
                       className="heading2"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="left"
                       fontWeight="normal"
                     >
@@ -156,11 +157,11 @@ const Dashboard: NextPage = () => {
                     </Heading>
                     <Heading
                       className="heading2"
-                      fontSize="32px"
+                      fontSize="28px"
                       textAlign="left"
                       fontWeight="normal"
                     >
-                      Verification Status:{" "}
+                      {isVerified ? <p>Verified</p> : <p>Unverified</p>}
                     </Heading>
                   </Flex>
                 </Flex>
@@ -168,8 +169,65 @@ const Dashboard: NextPage = () => {
 
               {/* Right column */}
               <Box flex="1">
-                <Heading className="heading1">Right Column</Heading>
-                {/* Add your content for the right column here */}
+                <SimpleGrid className={styles.simpleGrid} columns={3}>
+                  <CardButtonSmall href="/oems/account">
+                    <Image
+                      className={styles.image}
+                      src="factory-icon.svg"
+                      alt="factory icon"
+                    />
+                    <Heading color="brand.20" margin="1.5rem" size="md">
+                      Verify
+                    </Heading>
+                  </CardButtonSmall>
+
+                  <CardButtonSmall href="/oems/account">
+                    <Image
+                      className={styles.image}
+                      src="verify_image.svg"
+                      alt="verify"
+                    />
+                    <Heading color="brand.20" margin="0rem" size="md">
+                      Account Management
+                    </Heading>
+                  </CardButtonSmall>
+                  <CardButtonSmall href="/oems/account">
+                    <Image
+                      className={styles.image}
+                      src="/shipping-icon.svg"
+                      alt="shipping image"
+                      borderRadius="lg"
+                    />
+                    <Heading color="brand.20" margin="1.5rem" size="md">
+                      Add Shippers
+                    </Heading>
+                  </CardButtonSmall>
+                </SimpleGrid>
+
+                <SimpleGrid className={styles.simpleGrid} columns={3}>
+                  <CardButtonSmall href="/oems/create_batch">
+                    <Image
+                      className={styles.image}
+                      src="/circuitboard-icon.svg"
+                      alt="circuitboard image"
+                      borderRadius="lg"
+                    />
+                    <Heading color="brand.20" margin="1.5rem" size="md">
+                      Create Batch
+                    </Heading>
+                  </CardButtonSmall>
+
+                  <CardButtonSmall href="/oems/manage_batch">
+                    <Image
+                      className={styles.image}
+                      src="retailer-icon.svg"
+                      alt="retailer image"
+                    />
+                    <Heading color="brand.20" margin="1.3rem" size="md">
+                      Manage Batch
+                    </Heading>
+                  </CardButtonSmall>
+                </SimpleGrid>
               </Box>
             </Flex>
           </DarkBackground>
