@@ -23,6 +23,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import DarkBackground from "Components/DarkBackground/DarkBackground";
+import { Formik, Field, ErrorMessage } from "formik";
 
 import {
   useAccount,
@@ -40,6 +41,15 @@ const oemAddress = process.env.NEXT_PUBLIC_OEM_CONTRACT;
 const contractConfig = {
   address: oemAddress,
   abi,
+};
+
+// Validation function
+const validate = (values) => {
+  const errors = {};
+
+  // Perform validation logic and set errors object
+
+  return errors;
 };
 
 // gets a prop from getServerSideProps
@@ -103,15 +113,15 @@ function account({ user }) {
     hash: mintData?.hash,
   });
 
-  // React.useEffect(() => {
-  //   if (balanceOfData) {
-  //     setTotalMinted(totalSupplyData);
-  //   }
-  // }, [balanceOfData]);
-
   const toast = useToast();
 
   const isMinted = txSuccess;
+
+  const handleSubmit = (values) => {
+    // Handle form submission logic here
+    console.log(values);
+  };
+
   console.log(isOwned);
   return (
     <>
@@ -156,28 +166,35 @@ function account({ user }) {
                     </>
                   ) : (
                     <>
-                    <CardPlaceholder></CardPlaceholder>
-                    <Badge
-                      fontSize="25px"
-                      margin="40px 0px 0px 0px"
-                      variant="solid"
-                      colorScheme="red"
-                    >
-                      UnVerified
-                    </Badge>
+                      <CardPlaceholder></CardPlaceholder>
+                      <Badge
+                        fontSize="25px"
+                        margin="40px 0px 0px 0px"
+                        variant="solid"
+                        colorScheme="red"
+                      >
+                        UnVerified
+                      </Badge>
                     </>
                   )}
                 </FrontCard>
                 <BackCard isCardFlipped={isMinted}>
-                  <CardPlaceholder />
-                  <Badge
-                    fontSize="25px"
-                    margin="40px 0px 0px 0px"
-                    variant="solid"
-                    colorScheme="red"
-                  >
-                    UnVerified
-                  </Badge>
+                  <>
+                    <Image
+                      borderRadius="15px"
+                      w="370px"
+                      src="/nft_shield.svg"
+                      alt="Image"
+                    />
+                    <Badge
+                      fontSize="25px"
+                      margin="40px 0px 0px 0px"
+                      variant="solid"
+                      colorScheme="green"
+                    >
+                      Account Verified
+                    </Badge>
+                  </>
                 </BackCard>
               </FlipCard>
             </Box>
@@ -266,6 +283,9 @@ function account({ user }) {
                   type="email"
                 />
               </FormControl>
+
+
+              {/* Form control */ }
               <HStack w="full" marginBottom="20px" justify="space-between">
                 {mintError &&
                   toast({
@@ -283,7 +303,7 @@ function account({ user }) {
                     duration: 5000,
                     isClosable: true,
                   })}
-                {/* {isOwned ? (
+                {isOwned ? (
                   <Button variant="disabled-button" disabled={true}>
                     Account Verified
                   </Button>
@@ -303,18 +323,7 @@ function account({ user }) {
                       !isMintStarted &&
                       "Apply for Verification"}
                   </Button>
-                )} */}
-                <Button
-                  disabled={isMinted || !mint || isMintLoading || isMintStarted}
-                  className="button"
-                  data-mint-loading={isMintLoading}
-                  data-mint-started={isMintStarted}
-                  onClick={() => mint?.()}
-                >
-                  {isMintLoading && "Waiting for approval"}
-                  {isMintStarted && "Verifying Account..."}
-                  {!isMintLoading && !isMintStarted && "Apply for Verification"}
-                </Button>
+                )}
                 <Button type="submit"> Update Account</Button>
               </HStack>
 
