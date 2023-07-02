@@ -54,7 +54,7 @@ import {
 
 const dbInstance = collection(database, "users");
 
-// Validation function
+// Validation function TO DO THIS DOES NOTHING
 const validate = (values) => {
   const errors = {};
 
@@ -72,20 +72,9 @@ function account({ user }) {
     disconnect();
     signOut({ redirect: "/oems/sign_in" });
   };
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => setMounted(true), []);
 
   const [isOwned, setIsOwned] = useState(false);
   const { address, isConnected } = useAccount();
-  console.log("address", address);
-  console.log("isConnected", isConnected);
   const URI =
     "https://gateway.pinata.cloud/ipfs/QmX9UWRESfTfqzDCWHK1pzLq3tGbZMcW2qxpXSKYE8aqtb";
   const { config: contractWriteConfig } = usePrepareContractWrite({

@@ -29,7 +29,10 @@ import { ethers } from "ethers";
 import useAppState from "../../hooks/useAppState";
 
 const Dashboard: NextPage = () => {
-  const { user } = useAppState();
+  const { user, userProfile } = useAppState();
+
+  
+
 
   return (
     <>
@@ -123,7 +126,7 @@ const Dashboard: NextPage = () => {
                       textAlign="left"
                       fontWeight="normal"
                     >
-                      {user?.address}
+                      {userProfile?.business_name}
                     </Heading>
                     <Heading
                       className="heading2"
@@ -131,7 +134,9 @@ const Dashboard: NextPage = () => {
                       textAlign="left"
                       fontWeight="normal"
                     >
-                      Profile ID:{" "}
+                      {user?.address.slice(0, 6) +
+                        "..." +
+                        user?.address.slice(-6)}
                     </Heading>
                     <Heading
                       className="heading2"
@@ -139,7 +144,7 @@ const Dashboard: NextPage = () => {
                       textAlign="left"
                       fontWeight="normal"
                     >
-                      No. Verfied Couriers:{" "}
+                     5
                     </Heading>
                     <Heading
                       className="heading2"
@@ -147,7 +152,7 @@ const Dashboard: NextPage = () => {
                       textAlign="left"
                       fontWeight="normal"
                     >
-                      Batches Produced:{" "}
+                      4
                     </Heading>
                     <Heading
                       className="heading2"
