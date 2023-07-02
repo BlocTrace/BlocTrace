@@ -65,6 +65,7 @@ const validate = (values) => {
 
 // gets a prop from getServerSideProps
 function account({ user }) {
+  const [userData, setUserData] = useState(null);
   const { disconnect } = useDisconnect();
 
   const handleSignOut = () => {
@@ -165,7 +166,27 @@ function account({ user }) {
     }
   };
 
-  console.log(isOwned);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const q = query(
+          collection(database, "users"),
+          where("profile_id", "==", user.profileId)
+        );
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size === 1) {
+          const userData = querySnapshot.docs[0].data();
+          console.log("userData", userData);
+          setUserData(userData);
+        }
+      } catch (error) {
+        console.error("Error retrieving user data from the database:", error);
+      }
+    };
+
+    fetchData();
+  }, [user.profileId]);
+
   return (
     <>
       <OemLayout>
@@ -257,42 +278,25 @@ function account({ user }) {
               >
                 Sign out
               </Button>
-
-              <Formik
-                initialValues={{
-                  profile_id: user.profileId,
-                  wallet_address: user.address,
-                  business_name: "",
-                  business_number: "",
-                  business_category: "",
-                  email_address: "",
-                }}
-                onSubmit={handleSubmit}
-                validate={validate}
-              >
-                {(formik) => (
-                  <form onSubmit={formik.handleSubmit}>
-                    <FormLabel className={styles.label}>Profile ID</FormLabel>
-                    <Field
-                      as={Input}
-                      name="profile_id"
-                      type="text"
-                      isDisabled
-                      h="35px"
-                      marginBottom="15px"
-                      className={styles.input}
-                      color="brand.20"
-                      required
-                    />
-                    <ErrorMessage name="profile_id" component="div" />
-
-                    <Box className={styles.formControl}>
-                      <FormLabel className={styles.label}>
-                        Wallet Address
-                      </FormLabel>
+              {userData && (
+                <Formik
+                  initialValues={{
+                    profile_id: userData?.profile_id || user.profileId,
+                    wallet_address: userData?.wallet_address || user.address,
+                    business_name: userData?.business_name || "",
+                    business_number: userData?.business_number || "",
+                    business_category: userData?.business_category || "",
+                    email_address: userData?.email_address || "",
+                  }}
+                  onSubmit={handleSubmit}
+                  validate={validate}
+                >
+                  {(formik) => (
+                    <form onSubmit={formik.handleSubmit}>
+                      <FormLabel className={styles.label}>Profile ID</FormLabel>
                       <Field
                         as={Input}
-                        name="wallet_address"
+                        name="profile_id"
                         type="text"
                         isDisabled
                         h="35px"
@@ -301,91 +305,111 @@ function account({ user }) {
                         color="brand.20"
                         required
                       />
-                      <ErrorMessage name="wallet_address" component="div" />
-                    </Box>
+                      <ErrorMessage name="profile_id" component="div" />
 
-                    <Box className={styles.formControl}>
-                      <FormLabel className={styles.label}>
-                        Business Name
-                      </FormLabel>
-                      <Field
-                        as={Input}
-                        name="business_name"
-                        type="text"
-                        h="35px"
-                        marginBottom="15px"
-                        className={styles.input}
-                        color="brand.20"
-                        required
-                      />
-                      <ErrorMessage name="business_name" component="div" />
-                    </Box>
+                      <Box className={styles.formControl}>
+                        <FormLabel className={styles.label}>
+                          Wallet Address
+                        </FormLabel>
+                        <Field
+                          as={Input}
+                          name="wallet_address"
+                          type="text"
+                          isDisabled
+                          h="35px"
+                          marginBottom="15px"
+                          className={styles.input}
+                          color="brand.20"
+                          required
+                        />
+                        <ErrorMessage name="wallet_address" component="div" />
+                      </Box>
 
-                    <Box className={styles.formControl}>
-                      <FormLabel className={styles.label}>
-                        Business Number
-                      </FormLabel>
-                      <Field
-                        as={Input}
-                        name="business_number"
-                        type="text"
-                        h="35px"
-                        marginBottom="15px"
-                        className={styles.input}
-                        color="brand.20"
-                        required
-                      />
-                      <ErrorMessage name="business_number" component="div" />
-                    </Box>
+                      <Box className={styles.formControl}>
+                        <FormLabel className={styles.label}>
+                          Business Name
+                        </FormLabel>
+                        <Field
+                          as={Input}
+                          name="business_name"
+                          type="text"
+                          h="35px"
+                          marginBottom="15px"
+                          className={styles.input}
+                          color="brand.20"
+                          required
+                        />
+                        <ErrorMessage name="business_name" component="div" />
+                      </Box>
 
-                    <Box className={styles.formControl}>
-                      <FormLabel className={styles.label}>
-                        Business Category
-                      </FormLabel>
-                      <Field
-                        as={Select}
-                        name="business_category"
-                        h="35px"
-                        marginBottom="15px"
-                        className={styles.input}
-                        color="brand.20"
-                        required
-                      >
-                        <option value="">Select category</option>
-                        <option value="OEM">
-                          Original Equipment Manufacturer
-                        </option>
-                        <option value="Courier">Courier / Shipper</option>
-                        <option value="ProductMaker">Product Maker</option>
-                        <option value="Retailer">Retailer</option>
-                      </Field>
-                      <ErrorMessage name="business_category" component="div" />
-                    </Box>
+                      <Box className={styles.formControl}>
+                        <FormLabel className={styles.label}>
+                          Business Number
+                        </FormLabel>
+                        <Field
+                          as={Input}
+                          name="business_number"
+                          type="text"
+                          h="35px"
+                          marginBottom="15px"
+                          className={styles.input}
+                          color="brand.20"
+                          required
+                        />
+                        <ErrorMessage name="business_number" component="div" />
+                      </Box>
 
-                    <Box className={styles.formControl}>
-                      <FormLabel className={styles.label} marginTop="5px">
-                        Email Address
-                      </FormLabel>
-                      <Field
-                        as={Input}
-                        name="email_address"
-                        type="email"
-                        h="35px"
-                        marginBottom="15px"
-                        className={styles.input}
-                        color="brand.20"
-                        required
-                      />
-                      <ErrorMessage name="email_address" component="div" />
-                    </Box>
+                      <Box className={styles.formControl}>
+                        <FormLabel className={styles.label}>
+                          Business Category
+                        </FormLabel>
+                        <Field
+                          as={Select}
+                          name="business_category"
+                          h="35px"
+                          marginBottom="15px"
+                          className={styles.input}
+                          color="brand.20"
+                          required
+                        >
+                          <option value="">Select category</option>
+                          <option value="OEM">
+                            Original Equipment Manufacturer
+                          </option>
+                          <option value="Courier">Courier / Shipper</option>
+                          <option value="ProductMaker">Product Maker</option>
+                          <option value="Retailer">Retailer</option>
+                        </Field>
+                        <ErrorMessage
+                          name="business_category"
+                          component="div"
+                        />
+                      </Box>
 
-                    <Button w="98%" type="submit">
-                      Update Account
-                    </Button>
-                  </form>
-                )}
-              </Formik>
+                      <Box className={styles.formControl}>
+                        <FormLabel className={styles.label} marginTop="5px">
+                          Email Address
+                        </FormLabel>
+                        <Field
+                          as={Input}
+                          name="email_address"
+                          type="email"
+                          h="35px"
+                          marginBottom="15px"
+                          className={styles.input}
+                          color="brand.20"
+                          required
+                        />
+                        <ErrorMessage name="email_address" component="div" />
+                      </Box>
 
+                      <Button w="98%" type="submit">
+                        Update Account
+                      </Button>
+                    </form>
+                  )}
+                </Formik>
+              )}
               {/* Form control */}
               {mintError &&
                 toast({
