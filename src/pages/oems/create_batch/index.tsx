@@ -63,15 +63,6 @@ const publicClient = createPublicClient({
   transport: http(),
 });
 
-if (window?.ethereum) {
-  const client = createWalletClient({
-    chain: avalancheFuji,
-    transport: custom(window.ethereum!),
-  });
-} else {
-  throw new Error("User has no browser connected wallet");
-}
-
 const abi = batchContractJson.abi;
 const bytecode = batchContractJson.bytecode as `0x${string}`;
 
@@ -104,6 +95,12 @@ export default function create_batch() {
   const [hash, setHash] = useState<Hash>();
   const [receipt, setReceipt] = useState<TransactionReceipt>();
 
+  useEffect(() => {
+    const client = createWalletClient({
+      chain: avalancheFuji,
+      transport: custom(window.ethereum!),
+    });
+  }, []);
   // const { config: contractWriteConfig } = usePrepareContractWrite({
   //   ...contractConfig,
   //   functionName: "mint",
@@ -126,7 +123,7 @@ export default function create_batch() {
           status: "error",
           duration: 5000,
           isClosable: true,
-          position: "top",
+          position: "bottom",
         });
       }
 
@@ -156,7 +153,7 @@ export default function create_batch() {
         status: "success",
         duration: 5000,
         isClosable: true,
-        position: "top",
+        position: "bottom",
       });
       const contractAddress = receipt?.contractAddress;
 

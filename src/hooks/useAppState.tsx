@@ -1,5 +1,6 @@
 import { BlocTraceUser, WagmiUserSession } from "../types/User";
-import { ConsignmentData } from "../types/ConsignmentData";
+import { ConsignmentData, ConsignmentDetails } from "../types/ConsignmentData";
+import { ShipperProfile } from "../types/Shipper";
 import {
   getSession,
   GetSessionParams,
@@ -47,7 +48,9 @@ type AppStateContext = {
   userProfile?: BlocTraceUser;
   isVerified?: boolean;
   userConsignmentData?: ConsignmentData;
-  fetchConsignmentData: (userProfileId: string) => Promise<void>; // Add this line
+  fetchConsignmentData: (userProfileId: string) => Promise<void>;
+  querySnapshotConsignments?: ConsignmentDetails;
+  querySnapshotShippers?: ShipperProfile;
   handleSignOut: () => Promise<void>;
 };
 const Context = createContext<AppStateContext>({} as AppStateContext);
@@ -64,6 +67,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [userConsignmentData, setUserConsignmentData] = useState<
     ConsignmentData | undefined
   >(undefined);
+  const [querySnapshotConsignments, setQuerySnapshotConsignments] =
+    useState<any>();
+  const [querySnapshotShippers, setQuerySnapshotShippers] = useState<any>();
 
   const { address, isConnected } = useAccount() as {
     address: string;
@@ -117,7 +123,6 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
           unassignedCount++;
         }
       });
-      const totalConsignmentCount = unassignedCount + assignedCount;
       const queryShippers = query(
         collection(database, "shippers"),
         where("profile_id_oem", "==", userProfileId)
@@ -131,6 +136,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         total_consignments: totalConsignments,
         user_shippers_count: totalShippers,
       });
+
+      setQuerySnapshotConsignments(querySnapshotConsignments); // Set querySnapshotConsignments
+      setQuerySnapshotShippers(querySnapshotShippers);
       console.log("assignedCount", assignedCount);
       console.log("unassignedCount", unassignedCount);
       console.log("totalConsignments", totalConsignments);
@@ -171,8 +179,11 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         userProfile: userProfile as BlocTraceUser,
         isVerified: isVerified as boolean,
         userConsignmentData: userConsignmentData as ConsignmentData,
-        handleSignOut,
         fetchConsignmentData,
+        querySnapshotConsignments:
+          querySnapshotConsignments as ConsignmentDetails,
+        querySnapshotShippers: querySnapshotShippers as ShipperProfile,
+        handleSignOut,
       }}
     >
       {children}
