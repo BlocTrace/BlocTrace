@@ -89,7 +89,7 @@ const contractConfig = {
 };
 
 export default function create_batch() {
-  //const { user } = useAppState();
+  const { user } = useAppState();
   const { address, isConnected } = useAccount();
   const toast = useToast();
   const { data: walletClient, isError, isLoading } = useWalletClient();
@@ -135,9 +135,10 @@ export default function create_batch() {
         account: address,
         bytecode: bytecode,
       });
+      let receipt;
       console.log("hash", hash);
       if (hash) {
-        const receipt = await publicClient.waitForTransactionReceipt({
+        receipt = await publicClient.waitForTransactionReceipt({
           hash,
         });
         console.log("receipt", receipt);
@@ -150,20 +151,23 @@ export default function create_batch() {
         isClosable: true,
         position: "top",
       });
-      const contractAddress = await receipt?.contractAddress;
+      const contractAddress = receipt?.contractAddress;
 
       console.log("Minting...");
       try {
         console.log("Creating New Batch");
 
         if (contractAddress) {
+          console.log("contractAddress", contractAddress);
+          console.log("user?.profileId", user?.profileId);
+          console.log("values", values);
           addDoc(dbInstance, {
             batch_id: values.batch_id,
             batch_quantity: values.batch_quantity,
             batch_description: values.batch_description,
             product_name: values.product_name,
             product_id: values.product_id,
-            profile_id_oem: values.profile_id_oem,
+            profile_id_oem: user?.profileId,
             batch_contract_address: contractAddress,
           });
         } else {
