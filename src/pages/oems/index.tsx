@@ -24,7 +24,7 @@ import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
-} from "wagmi"; 
+} from "wagmi";
 import React, { useEffect } from "react";
 import { ethers } from "ethers";
 import useAppState from "../../hooks/useAppState";
@@ -32,8 +32,21 @@ import CardButtonSmall from "Components/CardButtonSmall/CardButtonSmall";
 import styles from "./oems.module.css";
 
 const Dashboard: NextPage = () => {
-  const { user, userProfile, isVerified } = useAppState();
+  const {
+    user,
+    userProfile,
+    isVerified,
+    userConsignmentData,
+    fetchConsignmentData,
+  } = useAppState();
 
+  useEffect(() => {
+    console.log("inside fetchData componentsldkfjsldkfjhsdklf");
+    if (user && user.profileId) {
+      console.log("inside fetchData 22222");
+      fetchConsignmentData(user.profileId);
+    }
+  }, []);
   return (
     <>
       <OemLayout>
@@ -144,7 +157,7 @@ const Dashboard: NextPage = () => {
                       textAlign="left"
                       fontWeight="normal"
                     >
-                      5
+                      {userConsignmentData?.user_shippers_count}
                     </Heading>
                     <Heading
                       className="heading2"
@@ -152,7 +165,7 @@ const Dashboard: NextPage = () => {
                       textAlign="left"
                       fontWeight="normal"
                     >
-                      4
+                      {userConsignmentData?.total_consignments}
                     </Heading>
                     <Heading
                       className="heading2"

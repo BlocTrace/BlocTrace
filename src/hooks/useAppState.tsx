@@ -1,4 +1,5 @@
 import { BlocTraceUser, WagmiUserSession } from "../types/User";
+import { ConsignmentData } from "../types/ConsignmentData";
 import {
   getSession,
   GetSessionParams,
@@ -26,6 +27,7 @@ import {
   where,
   getDocs,
   updateDoc,
+  onSnapshot,
   addDoc,
 } from "firebase/firestore";
 import { useAccount, useContractRead } from "wagmi";
@@ -44,6 +46,8 @@ type AppStateContext = {
   user?: WagmiUserSession;
   userProfile?: BlocTraceUser;
   isVerified?: boolean;
+  userConsignmentData?: ConsignmentData;
+  fetchConsignmentData: (userProfileId: string) => Promise<void>; // Add this line
   handleSignOut: () => Promise<void>;
 };
 const Context = createContext<AppStateContext>({} as AppStateContext);
@@ -57,6 +61,10 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   const [userProfile, setUserProfile] = useState<BlocTraceUser | undefined>(
     undefined
   );
+  const [userConsignmentData, setUserConsignmentData] = useState<
+    ConsignmentData | undefined
+  >(undefined);
+
   const { address, isConnected } = useAccount() as {
     address: string;
     isConnected: boolean;
@@ -90,9 +98,53 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const fetchConsignmentData = async (userProfileId: string) => {
+    try {
+      const queryConsignments = query(
+        collection(database, "consignment"),
+        where("profile_id_oem", "==", userProfileId)
+      );
+      const querySnapshotConsignments = await getDocs(queryConsignments);
+
+      const totalConsignments = querySnapshotConsignments.size;
+      let unassignedCount = 0;
+      let assignedCount = 0;
+      querySnapshotConsignments.forEach((doc) => {
+        const data = doc.data();
+        if (data.is_assigned) {
+          assignedCount++;
+        } else {
+          unassignedCount++;
+        }
+      });
+      const totalConsignmentCount = unassignedCount + assignedCount;
+      const queryShippers = query(
+        collection(database, "shippers"),
+        where("profile_id_oem", "==", userProfileId)
+      );
+      const querySnapshotShippers = await getDocs(queryShippers);
+      const totalShippers = querySnapshotShippers.size;
+
+      setUserConsignmentData({
+        consignments_assigned: assignedCount,
+        consignments_unassigned: unassignedCount,
+        total_consignments: totalConsignments,
+        user_shippers_count: totalShippers,
+      });
+      console.log("assignedCount", assignedCount);
+      console.log("unassignedCount", unassignedCount);
+      console.log("totalConsignments", totalConsignments);
+      console.log("totalShippers", totalShippers);
+      console.log("userConsignmentData", userConsignmentData);
+    } catch (error) {
+      console.error("Error retrieving user data from the database:", error);
+    }
+  };
+
   useEffect(() => {
     if (user && user.profileId) {
       fetchData(user.profileId);
+      fetchConsignmentData(user.profileId);
     }
   }, [user?.profileId!]);
 
@@ -112,14 +164,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       setIsVerified(false);
     }
   }, [userBalance]);
-
   return (
     <Context.Provider
       value={{
         user: user as WagmiUserSession,
         userProfile: userProfile as BlocTraceUser,
         isVerified: isVerified as boolean,
+        userConsignmentData: userConsignmentData as ConsignmentData,
         handleSignOut,
+        fetchConsignmentData,
       }}
     >
       {children}

@@ -88,6 +88,13 @@ const contractConfig = {
   abi,
 };
 
+/*
+  consignments_assigned: number;
+  consignments_unverified: number;
+  total_consignments: number;
+  user_shippers_count: number;
+*/
+
 export default function create_batch() {
   const { user } = useAppState();
   const { address, isConnected } = useAccount();
