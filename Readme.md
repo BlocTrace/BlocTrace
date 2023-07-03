@@ -3,6 +3,8 @@
 # Usage
 
 1. Install:
-`pnpm install --node-linker=hoisted`
-2. Run:
-`pnpm run dev` 
+`npm install --legacy-peer-deps`
+2.
+3. Run:
+`npm run dev` 
+

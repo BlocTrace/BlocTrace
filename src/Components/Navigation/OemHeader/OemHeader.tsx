@@ -154,6 +154,20 @@ export default function OemHeader() {
           </Button>
         </Link>
 
+        <Link href="/oems/add_shippers" shallow>
+          <Button
+            color="brand.0"
+            _hover={{
+              borderColor: "brand.300",
+              borderBottomWidth: "2px",
+              borderRadius: "0",
+              transition: "ease-in-out 0.2s",
+            }}
+          >
+            ADD SHIPPERS
+          </Button>
+        </Link>
+
         <Link href="/oems/account" shallow>
           <Button
             color="brand.0"

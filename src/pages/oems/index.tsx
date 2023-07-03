@@ -24,8 +24,7 @@ import {
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
-} from "wagmi";
-import contractJson from "../../assets/Yamato.json";
+} from "wagmi"; 
 import React, { useEffect } from "react";
 import { ethers } from "ethers";
 import useAppState from "../../hooks/useAppState";
@@ -45,7 +44,7 @@ const Dashboard: NextPage = () => {
 
         <Heading
           className="heading1"
-          margin="3rem"
+          margin="7rem"
           fontSize="5rem"
           color="brand.0"
           fontWeight="medium"
@@ -57,7 +56,7 @@ const Dashboard: NextPage = () => {
           flexDirection={["column", "row"]}
           justify="center"
           gap="60px"
-          marginBottom="30px"
+          marginBottom="15rem"
         >
           {/* User balances */}
           <DarkBackground>
@@ -191,7 +190,7 @@ const Dashboard: NextPage = () => {
                       Account Management
                     </Heading>
                   </CardButtonSmall>
-                  <CardButtonSmall href="/oems/account">
+                  <CardButtonSmall href="/oems/add_shippers">
                     <Image
                       className={styles.image}
                       src="/shipping-icon.svg"
