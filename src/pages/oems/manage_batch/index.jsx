@@ -139,7 +139,7 @@ export default function manage_batch() {
                     textAlign="right"
                     fontWeight="normal"
                   >
-                    397460AB {selectedConsignment?.batch_id}
+                    {selectedConsignment?.batch_id}
                   </Heading>
                   <Heading
                     className="label"
@@ -147,7 +147,7 @@ export default function manage_batch() {
                     textAlign="right"
                     fontWeight="normal"
                   >
-                    TSYS03 boards {selectedConsignment?.product_name}
+                     {selectedConsignment?.product_name}
                   </Heading>
                   <Heading
                     className="label"
@@ -155,7 +155,7 @@ export default function manage_batch() {
                     textAlign="right"
                     fontWeight="normal"
                   >
-                    PDID982kA {selectedConsignment?.product_id}
+                  {selectedConsignment?.product_id}
                   </Heading>
                   <Heading
                     className="label"
@@ -163,7 +163,7 @@ export default function manage_batch() {
                     textAlign="right"
                     fontWeight="normal"
                   >
-                    1000 {selectedConsignment?.batch_quantity}
+                    {selectedConsignment?.batch_quantity}
                   </Heading>
                   <Heading
                     className="label"
@@ -171,7 +171,7 @@ export default function manage_batch() {
                     textAlign="right"
                     fontWeight="normal"
                   >
-                    unassigned {selectedConsignment?.shipping_status}
+                   {selectedConsignment?.shipping_status}
                   </Heading>
                 </Flex>
               </Box>
@@ -190,6 +190,15 @@ export default function manage_batch() {
                         <Field
                           as={Select}
                           onChange={(e) => {
+                            const selectedBatchId = e.target.value;
+                            const selectedConsignmentData =
+                              querySnapshotConsignments?.docs
+                                .find(
+                                  (doc) =>
+                                    doc.data().batch_id === selectedBatchId
+                                )
+                                ?.data();
+                            setSelectedConsignment(selectedConsignmentData);
                             console.log(e.target.value);
                           }}
                           name="batchId"

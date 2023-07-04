@@ -160,11 +160,8 @@ export default function create_batch() {
       console.log("Minting...");
       try {
         console.log("Creating New Batch");
-
+        //TODO: Need to add in a check so that batchID must be unique
         if (contractAddress) {
-          console.log("contractAddress", contractAddress);
-          console.log("user?.profileId", user?.profileId);
-          console.log("values", values);
           addDoc(dbInstance, {
             batch_id: values.batch_id,
             batch_quantity: values.batch_quantity,
@@ -173,6 +170,7 @@ export default function create_batch() {
             product_id: values.product_id,
             profile_id_oem: user?.profileId,
             batch_contract_address: contractAddress,
+            shipping_status: "unassigned",
           });
         } else {
           throw new Error("batch wasn't minted correctly");
