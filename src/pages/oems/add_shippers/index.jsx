@@ -39,6 +39,7 @@ const dbInstance = collection(database, "shippers");
 
 export default function add_shippers() {
   const { user } = useAppState();
+  const toast = useToast();
   const handleSubmit = async (values) => {
     console.log(values);
     try {
@@ -57,7 +58,15 @@ export default function add_shippers() {
           email_address: values.email_address,
           profile_id_oem: user.profileId,
         });
-        console.log("user data Updated");
+        toast({
+          title: "Shipper Info Updated",
+          description: "Shipper Information Updated Successfully",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom",
+        });
+        console.log("");
       } else {
         addDoc(dbInstance, {
           business_name: values.business_name,
@@ -67,9 +76,25 @@ export default function add_shippers() {
           profile_id_oem: user.profileId,
         });
         console.log("New user registered");
+        toast({
+          title: "Shipper Info Added",
+          description: "New Shipper Created Successfully",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+          position: "bottom",
+        });
       }
     } catch (error) {
       console.error("Error storing form data in the database:", error);
+      toast({
+        title: "Shipper Info Updated",
+        description: error,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+        position: "bottom",
+      });
     }
   };
 

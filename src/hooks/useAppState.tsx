@@ -87,6 +87,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
 
   // Fetch data from DB
   const fetchData = async (userProfileId: string) => {
+    console.log("inside fetchData:", userProfileId);
     try {
       const q = query(
         collection(database, "users"),
@@ -105,6 +106,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   };
 
   const fetchConsignmentData = async (userProfileId: string) => {
+    console.log("userProfileID insideee: ", userProfileId);
     try {
       const queryConsignments = query(
         collection(database, "consignment"),
@@ -151,6 +153,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (user && user.profileId) {
+      console.log("user inside useEffect:", user);
       fetchData(user.profileId);
       fetchConsignmentData(user.profileId);
     }

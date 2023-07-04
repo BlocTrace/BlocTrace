@@ -30,6 +30,7 @@ export default function OemHeader() {
   const { requestChallengeAsync } = useAuthRequestChallengeEvm();
   const account = useAccount({
     onDisconnect() {
+      signOut();
       router.push("/oems/sign_in"); // Redirect the user after signing out
     },
   });
@@ -37,6 +38,7 @@ export default function OemHeader() {
   useEffect(() => {
     console.log("inside check, status", status);
     console.log("inside check, status", isConnected);
+    console.log("address", address);
     const handleAuth = async () => {
       const { message } = (await requestChallengeAsync({
         address: address as string,
@@ -58,14 +60,8 @@ export default function OemHeader() {
        */
       push(url);
     };
-    if (status === "unauthenticated" && !isConnected) {
-      console.log("inside initial check, status", status);
-      console.log("inside initial check, status", isConnected);
-
+    if (status === "unauthenticated" && isConnected) {
       handleAuth();
-    }
-    if (status === "unauthenticated" || !isConnected) {
-      router.push("/oems/sign_in");
     }
   }, [status, isConnected]);
 

@@ -99,7 +99,7 @@ const Dashboard: NextPage = () => {
                       textAlign="right"
                       fontWeight="normal"
                     >
-                      Profile ID:{" "}
+                      Wallet Address:{" "}
                     </Heading>
                     <Heading
                       className="label"
@@ -139,7 +139,7 @@ const Dashboard: NextPage = () => {
                       textAlign="left"
                       fontWeight="normal"
                     >
-                      {userProfile?.business_name}
+                      {userProfile?.business_name ?? "Account Not Setup"}
                     </Heading>
                     <Heading
                       className="heading2"

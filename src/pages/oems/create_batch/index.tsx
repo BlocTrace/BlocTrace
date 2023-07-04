@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-//import styles from "../styles/Home.module.css";
 import OemLayout from "../../../Components/OemLayout/OemLayout";
 import Head from "next/head";
 import styles from "./create_batch.module.css";
@@ -63,6 +62,11 @@ const publicClient = createPublicClient({
   transport: http(),
 });
 
+const client = createWalletClient({
+  chain: avalancheFuji,
+  transport: custom(window.ethereum!),
+});
+
 const abi = batchContractJson.abi;
 const bytecode = batchContractJson.bytecode as `0x${string}`;
 
@@ -95,12 +99,7 @@ export default function create_batch() {
   const [hash, setHash] = useState<Hash>();
   const [receipt, setReceipt] = useState<TransactionReceipt>();
 
-  useEffect(() => {
-    const client = createWalletClient({
-      chain: avalancheFuji,
-      transport: custom(window.ethereum!),
-    });
-  }, []);
+  // useEffect(() => {}, []);
   // const { config: contractWriteConfig } = usePrepareContractWrite({
   //   ...contractConfig,
   //   functionName: "mint",
@@ -147,9 +146,10 @@ export default function create_batch() {
         });
         console.log("receipt", receipt);
       }
+
       toast({
         title: "Success",
-        description: `Your NFT Collection was minted`,
+        description: `Batch Created`,
         status: "success",
         duration: 5000,
         isClosable: true,
