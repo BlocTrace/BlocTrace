@@ -62,11 +62,6 @@ const publicClient = createPublicClient({
   transport: http(),
 });
 
-const client = createWalletClient({
-  chain: avalancheFuji,
-  transport: custom(window.ethereum!),
-});
-
 const abi = batchContractJson.abi;
 const bytecode = batchContractJson.bytecode as `0x${string}`;
 
@@ -98,7 +93,12 @@ export default function create_batch() {
 
   const [hash, setHash] = useState<Hash>();
   const [receipt, setReceipt] = useState<TransactionReceipt>();
-
+  useEffect(() => {
+    const client = createWalletClient({
+      chain: avalancheFuji,
+      transport: custom(window.ethereum!),
+    });
+  }, []);
   // useEffect(() => {}, []);
   // const { config: contractWriteConfig } = usePrepareContractWrite({
   //   ...contractConfig,
