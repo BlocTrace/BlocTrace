@@ -171,6 +171,8 @@ export default function create_batch() {
             profile_id_oem: user?.profileId,
             batch_contract_address: contractAddress,
             shipping_status: "unassigned",
+            assigned_shipper: "",
+            assigned_shipper_address: "",
           });
         } else {
           throw new Error("batch wasn't minted correctly");

@@ -14,4 +14,6 @@ export type ConsignmentDetails = {
   product_name: string;
   profile_id_oem: string;
   shipping_status: string;
+  assigned_shipper: string;
+  assigned_shipper_address: string;
 };
