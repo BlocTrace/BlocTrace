@@ -107,7 +107,7 @@ export default function manage_batch() {
     error: prepareError,
     isError: isPrepareError,
   } = usePrepareContractWrite({
-    address: "0x4837AbB3E0A9Ec8957448f80E2332F82676D4C80",
+    address: selectedConsignment?.batch_contract_address,
     abi: abi,
     functionName: "mint",
     args: mintArgs,
