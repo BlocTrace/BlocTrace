@@ -120,13 +120,13 @@ function account({ user }) {
 
   // Handle form submission logic here
   const handleSubmit = async (values) => {
-    console.log(values);
+ 
     try {
       const q = query(
         collection(database, "users"),
         where("profile_id", "==", values.profile_id)
       );
-      console.log();
+ 
       const querySnapshot = await getDocs(q);
       if (querySnapshot.size === 1) {
         const docRef = querySnapshot.docs[0].ref;
@@ -146,7 +146,7 @@ function account({ user }) {
           isClosable: true,
           position: "bottom",
         });
-        console.log("user data Updated");
+        
       } else {
         addDoc(dbInstance, {
           profile_id: values.profile_id,
@@ -156,10 +156,10 @@ function account({ user }) {
           business_category: values.business_category,
           email_address: values.email_address,
         });
-        console.log("New user registered");
+    
       }
     } catch (error) {
-      console.error("Error storing form data in the database:", error);
+   //   console.error("Error storing form data in the database:", error);
     }
   };
 
@@ -173,7 +173,7 @@ function account({ user }) {
         const querySnapshot = await getDocs(q);
         if (querySnapshot.size === 1) {
           const userData = querySnapshot.docs[0].data();
-          console.log("userData", userData);
+        
           setUserData(userData);
         }
       } catch (error) {

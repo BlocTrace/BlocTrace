@@ -128,23 +128,19 @@ export default function create_batch() {
 
       // Mint NFTs
       if (!address) return;
-      console.log(abi);
-      console.log("bytecode", bytecode);
-      console.log("address", address);
-      console.log("walletClient", walletClient);
-      console.log("abi", abi);
+   
       const hash = await walletClient.deployContract({
         abi: abi,
         account: address,
         bytecode: bytecode,
       });
       let receipt;
-      console.log("hash", hash);
+    
       if (hash) {
         receipt = await publicClient.waitForTransactionReceipt({
           hash,
         });
-        console.log("receipt", receipt);
+        
       }
 
       toast({
@@ -157,9 +153,9 @@ export default function create_batch() {
       });
       const contractAddress = receipt?.contractAddress;
 
-      console.log("Minting...");
+    
       try {
-        console.log("Creating New Batch");
+       
         //TODO: Need to add in a check so that batchID must be unique
         if (contractAddress) {
           addDoc(dbInstance, {

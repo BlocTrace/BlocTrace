@@ -80,14 +80,12 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
   // TODO: This doesn't work, need to fix
   const handleSignOut = async () => {
     disconnect();
-    console.log("calling handlesignout from context");
     await signOut();
     router.push("/oems/sign_in");
   };
 
   // Fetch data from DB
-  const fetchData = async (userProfileId: string) => {
-    console.log("inside fetchData:", userProfileId);
+  const fetchData = async (userProfileId: string) => { 
     try {
       const q = query(
         collection(database, "users"),
@@ -97,16 +95,16 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       if (querySnapshot.size === 1) {
         const userData: BlocTraceUser =
           querySnapshot.docs[0].data() as BlocTraceUser;
-        console.log("userData", userData);
+   
         setUserProfile(userData);
       }
     } catch (error) {
-      console.error("Error retrieving user data from the database:", error);
+      // console.error("Error retrieving user data from the database:", error);
     }
   };
 
   const fetchConsignmentData = async (userProfileId: string) => {
-    console.log("userProfileID insideee: ", userProfileId);
+    
     try {
       const queryConsignments = query(
         collection(database, "consignment"),
@@ -140,20 +138,15 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       });
 
       setQuerySnapshotConsignments(querySnapshotConsignments); // Set querySnapshotConsignments
-      setQuerySnapshotShippers(querySnapshotShippers);
-      console.log("assignedCount", assignedCount);
-      console.log("unassignedCount", unassignedCount);
-      console.log("totalConsignments", totalConsignments);
-      console.log("totalShippers", totalShippers);
-      console.log("userConsignmentData", userConsignmentData);
+      setQuerySnapshotShippers(querySnapshotShippers); 
     } catch (error) {
-      console.error("Error retrieving user data from the database:", error);
+     // console.error("Error retrieving user data from the database:", error);
     }
   };
 
   useEffect(() => {
     if (user && user.profileId) {
-      console.log("user inside useEffect:", user);
+     
       fetchData(user.profileId);
       fetchConsignmentData(user.profileId);
     }

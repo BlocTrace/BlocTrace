@@ -41,13 +41,13 @@ export default function add_shippers() {
   const { user } = useAppState();
   const toast = useToast();
   const handleSubmit = async (values) => {
-    console.log(values);
+   
     try {
       const q = query(
         collection(database, "shippers"),
         where("wallet_address", "==", values.wallet_address)
       );
-      console.log();
+   
       const querySnapshot = await getDocs(q);
       if (querySnapshot.size === 1) {
         const docRef = querySnapshot.docs[0].ref;
@@ -66,7 +66,7 @@ export default function add_shippers() {
           isClosable: true,
           position: "bottom",
         });
-        console.log("");
+    
       } else {
         addDoc(dbInstance, {
           business_name: values.business_name,
@@ -75,7 +75,7 @@ export default function add_shippers() {
           email_address: values.email_address,
           profile_id_oem: user.profileId,
         });
-        console.log("New user registered");
+      
         toast({
           title: "Shipper Info Added",
           description: "New Shipper Created Successfully",

@@ -98,7 +98,7 @@ export default function manage_batch() {
         selectedConsignment.batch_quantity,
         "",
       ]);
-      console.log("inside useeffect of getting args");
+     
     }
   }, [selectedShipper, selectedConsignment]);
 
@@ -129,11 +129,7 @@ export default function manage_batch() {
   const submit = async (values) => {
     try {
       // Prepare contract for sending
-      console.log("contractAddress", contractAddress);
 
-      console.log("selectedConsignment", selectedConsignment);
-      console.log("selectedConsignment", selectedShipper);
-      console.log("mint args", mintArgs);
       // Trigger minting process
       mint?.();
 
@@ -145,7 +141,7 @@ export default function manage_batch() {
         duration: 2000,
         isClosable: true,
       });
-      console.log("isSuccess", isSuccess);
+
     } catch (error) {
       console.error("Error occurred:", error);
       // Show error toast notification
@@ -188,7 +184,8 @@ export default function manage_batch() {
 
         selectedConsignment.shipping_status = "assigned";
         selectedConsignment.assigned_shipper = selectedShipper.business_name;
-        console.log("updating DB");
+      
+
         // Show success toast notification for database update
         toast({
           title: "Database Update",
@@ -206,7 +203,7 @@ export default function manage_batch() {
   useEffect(() => {
     const isDisabled =
       !mint || isLoading || selectedConsignment?.shipping_status === "assigned";
-    console.log("disabled:", isDisabled);
+ 
   }, [mint, isLoading, selectedConsignment?.shipping_status]);
   return (
     <>
@@ -388,11 +385,9 @@ export default function manage_batch() {
                                     selectedConsignment.batch_quantity,
                                     "",
                                   ]);
-                                  console.log(
-                                    "inside useeffect of getting args"
-                                  );
+                         
                                 }
-                                console.log(e.target.value);
+                           
                               }}
                               name="batchId"
                               width="98%"
@@ -443,14 +438,9 @@ export default function manage_batch() {
                                     selectedConsignment.batch_quantity,
                                     "",
                                   ]);
-                                  console.log(
-                                    "inside useeffect of getting args"
-                                  );
+                                
                                 }
-                                console.log(
-                                  "Selected shipper after update:",
-                                  selectedShipperData
-                                );
+                        
                               }}
                               name="shipper"
                               width="98%"
@@ -492,7 +482,7 @@ export default function manage_batch() {
                             w="100%"
                             onClick={() => {
                               submit();
-                              console.log("inside");
+                       
                             }}
                             disabled={!mint || isLoading}
                             variant={

@@ -18,8 +18,7 @@ function SignIn() {
   const { requestChallengeAsync } = useAuthRequestChallengeEvm();
   const router = useRouter();
   useEffect(() => {
-    console.log("inside sign_in, status", status);
-    console.log("inside sign_in, isConnected", isConnected);
+
     const handleAuth = async () => {
       const { message } = await requestChallengeAsync({
         address: address,

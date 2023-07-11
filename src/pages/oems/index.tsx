@@ -41,9 +41,7 @@ const Dashboard: NextPage = () => {
   } = useAppState();
 
   useEffect(() => {
-    console.log("inside fetchData componentsldkfjsldkfjhsdklf");
     if (user && user.profileId) {
-      console.log("inside fetchData 22222");
       fetchConsignmentData(user.profileId);
     }
   }, []);
