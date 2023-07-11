@@ -98,7 +98,6 @@ export default function manage_batch() {
         selectedConsignment.batch_quantity,
         "",
       ]);
-     
     }
   }, [selectedShipper, selectedConsignment]);
 
@@ -141,7 +140,6 @@ export default function manage_batch() {
         duration: 2000,
         isClosable: true,
       });
-
     } catch (error) {
       console.error("Error occurred:", error);
       // Show error toast notification
@@ -158,8 +156,6 @@ export default function manage_batch() {
   useEffect(() => {
     const updateDatabase = async () => {
       if (isSuccess) {
-        // Code to run when isSuccess changes to true
-        // Show success toast notification for minting completed
         toast({
           title: "Minting Completed",
           description: "The minting process has been completed successfully.",
@@ -184,7 +180,6 @@ export default function manage_batch() {
 
         selectedConsignment.shipping_status = "assigned";
         selectedConsignment.assigned_shipper = selectedShipper.business_name;
-      
 
         // Show success toast notification for database update
         toast({
@@ -203,7 +198,6 @@ export default function manage_batch() {
   useEffect(() => {
     const isDisabled =
       !mint || isLoading || selectedConsignment?.shipping_status === "assigned";
- 
   }, [mint, isLoading, selectedConsignment?.shipping_status]);
   return (
     <>
@@ -385,9 +379,7 @@ export default function manage_batch() {
                                     selectedConsignment.batch_quantity,
                                     "",
                                   ]);
-                         
                                 }
-                           
                               }}
                               name="batchId"
                               width="98%"
@@ -438,9 +430,7 @@ export default function manage_batch() {
                                     selectedConsignment.batch_quantity,
                                     "",
                                   ]);
-                                
                                 }
-                        
                               }}
                               name="shipper"
                               width="98%"
@@ -482,7 +472,6 @@ export default function manage_batch() {
                             w="100%"
                             onClick={() => {
                               submit();
-                       
                             }}
                             disabled={!mint || isLoading}
                             variant={
