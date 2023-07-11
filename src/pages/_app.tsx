@@ -42,18 +42,8 @@ import { Session } from "next-auth";
 
 const walletConnectProjectId: string | undefined =
   process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
-if (walletConnectProjectId) {
-  console.log("walletConnectId if", walletConnectProjectId);
-} else {
-  console.log("walletConnectId else", walletConnectProjectId);
-}
 
 const infuraApiKey: string | undefined = process.env.NEXT_PUBLIC_INFURA_API_KEY;
-if (!infuraApiKey || infuraApiKey.length <= 0) {
-  console.log("infura if", infuraApiKey);
-} else {
-  console.log("infura else", infuraApiKey);
-}
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [avalancheFuji, avalanche],
