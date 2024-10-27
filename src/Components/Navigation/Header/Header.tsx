@@ -5,8 +5,17 @@ import {
   Flex,
   Spacer,
   useToken,
+  IconButton,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Header.module.css";
@@ -26,6 +35,7 @@ export default function Header() {
   const { signMessageAsync } = useSignMessage();
   const { push } = useRouter();
   const { requestChallengeAsync } = useAuthRequestChallengeEvm();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const account = useAccount({
     onDisconnect() {
@@ -35,8 +45,6 @@ export default function Header() {
   });
 
   useEffect(() => {
-    console.log("inside check, status", status);
-    console.log("inside check, status", isConnected);
     const handleAuth = async () => {
       const { message } = (await requestChallengeAsync({
         address: address as string,
@@ -45,41 +53,29 @@ export default function Header() {
 
       const signature = await signMessageAsync({ message });
 
-      // redirect user after success authentication to '/user' page
       const { url } = (await signIn("moralis-auth", {
         message,
         signature,
         redirect: false,
-        callbackUrl: "/oems", // take the user to the oem dashboard
+        callbackUrl: "/oems",
       })) as { url: string };
-      /**
-       * instead of using signIn(..., redirect: "/user")
-       * we get the url from callback and push it to the router to avoid page refreshing
-       */
       push(url);
     };
     if (status === "unauthenticated" && isConnected) {
-      console.log("inside initial check, status", status);
-      console.log("inside initial check, status", isConnected);
-
       handleAuth();
     }
   }, [status, isConnected]);
 
   React.useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 0;
-      console.log(`Scrolled: ${isScrolled}`);
-      setScrolled(isScrolled);
+      setScrolled(window.scrollY > 0);
     };
 
-    // Only add the event listener if window is defined (i.e., we're on the client side)
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll);
     }
 
     return () => {
-      // Clean up the event listener when the component is unmounted
       if (typeof window !== "undefined") {
         window.removeEventListener("scroll", handleScroll);
       }
@@ -92,22 +88,34 @@ export default function Header() {
       minWidth="max-content"
       className={styles.header}
       style={{
-        backgroundColor: `rgba(10, 12, 14, 0.5)`, // Adjust the alpha value (0.8) as needed
+        backgroundColor: `rgba(10, 12, 14, 0.5)`,
+        backdropFilter: "blur(10px)", // Apply background blur
         borderBottom: scrolled ? "1px solid #332018" : "none",
       }}
+      px={{ base: 4, md: 8 }}
+      py={4}
+      alignItems="center"
     >
       <Link href="/" shallow>
         <Box className={styles.yamato_logo}>
           <Image
             src="bloctrace-logo-long-light.svg"
             alt="BlocTrace Logo"
-            width={2000}
-            height={400}
+            width={3500} // Increased for larger screens
+            height={700} 
+            style={{ maxWidth: "100%", height: "auto" }}
           />
         </Box>
       </Link>
-      <Spacer></Spacer>
-      <ButtonGroup className={styles.nav_menu} variant="ghost" gap="2">
+      <Spacer />
+
+      {/* Desktop Menu */}
+      <ButtonGroup
+        className={styles.nav_menu}
+        variant="ghost"
+        gap="2"
+        display={{ base: "none", md: "flex" }} // Show only on larger screens
+      >
         <Link href="/oems" shallow>
           <Button
             color="brand.0"
@@ -121,11 +129,9 @@ export default function Header() {
             OEMS
           </Button>
         </Link>
-
         <Link href="/couriers" shallow>
           <Button
             color="brand.0"
-            aria-current="page"
             _hover={{
               borderColor: "brand.300",
               borderBottomWidth: "2px",
@@ -139,7 +145,6 @@ export default function Header() {
         <Link href="/product_makers" shallow>
           <Button
             color="brand.0"
-            aria-current="page"
             _hover={{
               borderColor: "brand.300",
               borderBottomWidth: "2px",
@@ -150,7 +155,6 @@ export default function Header() {
             PRODUCT MAKERS
           </Button>
         </Link>
-
         <Link href="/retailers" shallow>
           <Button
             color="brand.0"
@@ -164,7 +168,6 @@ export default function Header() {
             RETAILERS
           </Button>
         </Link>
-
         <Link
           href="https://github.com/Sahil24-lab/BlocTrace"
           target="_blank"
@@ -184,8 +187,53 @@ export default function Header() {
           </Button>
         </Link>
       </ButtonGroup>
-      <Spacer></Spacer>
-      <Flex className={styles.connect}>
+
+      {/* Mobile Hamburger Menu */}
+      <IconButton
+        icon={<HamburgerIcon />}
+        display={{ base: "flex", md: "none" }} // Show only on smaller screens
+        onClick={onOpen}
+        aria-label="Open Menu"
+        variant="ghost"
+        color="brand.0"
+      />
+
+      {/* Mobile Drawer Menu */}
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Menu</DrawerHeader>
+          <DrawerBody>
+            <Flex direction="column" gap="4">
+              <Link href="/oems" shallow>
+                <Button onClick={onClose} w="100%">OEMS</Button>
+              </Link>
+              <Link href="/couriers" shallow>
+                <Button onClick={onClose} w="100%">COURIERS</Button>
+              </Link>
+              <Link href="/product_makers" shallow>
+                <Button onClick={onClose} w="100%">PRODUCT MAKERS</Button>
+              </Link>
+              <Link href="/retailers" shallow>
+                <Button onClick={onClose} w="100%">RETAILERS</Button>
+              </Link>
+              <Link
+                href="https://github.com/Sahil24-lab/BlocTrace"
+                target="_blank"
+                rel="noopener noreferrer"
+                shallow
+              >
+                <Button onClick={onClose} w="100%">DOCS</Button>
+              </Link>
+            </Flex>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+      <Spacer />
+
+      <Flex fontSize="18px">
         <ConnectButton
           showBalance={{
             smallScreen: false,

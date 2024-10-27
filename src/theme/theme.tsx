@@ -67,6 +67,25 @@ const myTheme = extendTheme({
     xl: "80em",
   },
   components: { Button, Spinner },
+  styles: {
+    global: {
+      /* Apply styles to all scrollbars in the app */
+      "::-webkit-scrollbar": {
+        width: "12px",
+        height: "8px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: "#210d0a", // Dark gray track background
+      },
+      "::-webkit-scrollbar-thumb": {
+        background: "#d3703c", // Gray thumb background
+        borderRadius: "8px",
+      },
+      "::-webkit-scrollbar-thumb:hover": {
+        background: "#96502a", // Darker gray on hover
+      },
+    },
+  },
 });
 
 export default myTheme;

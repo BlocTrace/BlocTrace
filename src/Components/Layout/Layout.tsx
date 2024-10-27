@@ -26,10 +26,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             >
               {children}
             </Box>
-
-            <Footer />
           </Flex>
         </Container>
+        <Footer />
       </div>
     </>
   );

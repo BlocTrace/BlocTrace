@@ -2,18 +2,12 @@ html {
   box-sizing: border-box;
   font-size: 62.5%;
 }
-.header-hero {
-  color: #e8f1f2;
-  font-size: 10px;
-  font-weight: 400;
-  padding: 10rem 20rem 0rem 0rem;
-  text-align: left;
-}
+
 
 .sub-header-hero {
   color: #e8f1f2;
-  font-size: 30px;
-  font-weight: 400;
+  font-size: 20px;
+  font-weight: 200;
   text-align: left;
 }
 
@@ -35,7 +29,7 @@ html {
 
 .heading2 {
   color: #e8f1f2;
-  font-size: 30px;
+  font-size: 22px;
   font-weight: 400;
   padding: 0rem 0rem 2rem 0rem;
   text-align: center;

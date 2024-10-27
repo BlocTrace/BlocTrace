@@ -11,6 +11,7 @@
     "theme:watch": "chakra-cli tokens src/theme/theme.tsx --watch"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/next-js": "^2.1.4",
     "@chakra-ui/react": "^2.7.1",
     "@emotion/react": "^11.11.1",
@@ -31,7 +32,7 @@
     "framer-motion": "^10.12.17",
     "moralis": "^2.22.3",
     "next": "13.1.2",
-    "next-auth": "^4.22.1",
+    "next-auth": "^4.20.1",
     "nodemailer": "^6.9.3",
     "postcss": "^8.4.24",
     "postcss-custom-properties": "^7.0.0",

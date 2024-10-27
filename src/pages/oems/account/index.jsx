@@ -21,9 +21,10 @@ import {
   Select,
   VStack,
   useToast,
+  Checkbox,
 } from "@chakra-ui/react";
 import DarkBackground from "Components/DarkBackground/DarkBackground";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik, Field, ErrorMessage, FieldArray } from "formik";
 
 import {
   useAccount,
@@ -120,13 +121,12 @@ function account({ user }) {
 
   // Handle form submission logic here
   const handleSubmit = async (values) => {
- 
     try {
       const q = query(
         collection(database, "users"),
         where("profile_id", "==", values.profile_id)
       );
- 
+
       const querySnapshot = await getDocs(q);
       if (querySnapshot.size === 1) {
         const docRef = querySnapshot.docs[0].ref;
@@ -146,7 +146,6 @@ function account({ user }) {
           isClosable: true,
           position: "bottom",
         });
-        
       } else {
         addDoc(dbInstance, {
           profile_id: values.profile_id,
@@ -156,10 +155,9 @@ function account({ user }) {
           business_category: values.business_category,
           email_address: values.email_address,
         });
-    
       }
     } catch (error) {
-   //   console.error("Error storing form data in the database:", error);
+      //   console.error("Error storing form data in the database:", error);
     }
   };
 
@@ -173,7 +171,7 @@ function account({ user }) {
         const querySnapshot = await getDocs(q);
         if (querySnapshot.size === 1) {
           const userData = querySnapshot.docs[0].data();
-        
+
           setUserData(userData);
         }
       } catch (error) {
@@ -188,7 +186,9 @@ function account({ user }) {
     <>
       <OemLayout>
         <Head>
-          <title>BlocTrace OEMS - Account Management</title>
+          <title>
+            BlocTrace Suppliers and Distributors - Account Management
+          </title>
           {/* <meta name="description" content="noindex,nofollow" /> */}
         </Head>
 
@@ -283,6 +283,7 @@ function account({ user }) {
                   business_number: userData?.business_number || "",
                   business_category: userData?.business_category || "",
                   email_address: userData?.email_address || "",
+                  options: [], // Make sure this is an array
                 }}
                 onSubmit={handleSubmit}
                 validate={validate}
@@ -340,7 +341,24 @@ function account({ user }) {
 
                     <Box className={styles.formControl}>
                       <FormLabel className={styles.label}>
-                        Business Number
+                        Business Address
+                      </FormLabel>
+                      <Field
+                        as={Input}
+                        name="business_address"
+                        type="text"
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      />
+                      <ErrorMessage name="business_address" component="div" />
+                    </Box>
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label}>
+                        Australian Business Number
                       </FormLabel>
                       <Field
                         as={Input}
@@ -357,7 +375,7 @@ function account({ user }) {
 
                     <Box className={styles.formControl}>
                       <FormLabel className={styles.label}>
-                        Business Category
+                        Type of Organization
                       </FormLabel>
                       <Field
                         as={Select}
@@ -369,14 +387,66 @@ function account({ user }) {
                         required
                       >
                         <option value="">Select category</option>
-                        <option value="OEM">
-                          Original Equipment Manufacturer
-                        </option>
-                        <option value="Courier">Courier / Shipper</option>
-                        <option value="ProductMaker">Product Maker</option>
+                        <option value="Grower">Grower</option>
+                        <option value="Distributor">Distributor</option>
+                        <option value="Manufacturer">Manufacturer</option>
                         <option value="Retailer">Retailer</option>
                       </Field>
                       <ErrorMessage name="business_category" component="div" />
+                    </Box>
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label}>
+                        License Number
+                      </FormLabel>
+                      <Field
+                        as={Input}
+                        name="license_number"
+                        type="text"
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      />
+                      <ErrorMessage name="license_number" component="div" />
+                    </Box>
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label}>
+                        License Issue Date
+                      </FormLabel>
+                      <Field
+                        as={Input}
+                        name="license_issue_date"
+                        type="date"
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      />
+                      <ErrorMessage name="license_issue_date" component="div" />
+                    </Box>
+
+                    <Box className={styles.formControl}>
+                      <FormLabel className={styles.label}>
+                        License Expiry Date
+                      </FormLabel>
+                      <Field
+                        as={Input}
+                        name="license_expiry_date"
+                        type="date"
+                        h="35px"
+                        marginBottom="15px"
+                        className={styles.input}
+                        color="brand.20"
+                        required
+                      />
+                      <ErrorMessage
+                        name="license_expiry_date"
+                        component="div"
+                      />
                     </Box>
 
                     <Box className={styles.formControl}>
@@ -394,6 +464,44 @@ function account({ user }) {
                         required
                       />
                       <ErrorMessage name="email_address" component="div" />
+                    </Box>
+                    <Box className={styles.formControl}>
+                      <FieldArray
+                        name="options"
+                        render={(arrayHelpers) => (
+                          <VStack align="flex-start">
+                            {[
+                              "I consent to Bloctrace to verify my account details and licenses with the relevnat bodies",
+                            ].map((option, index) => (
+                              <Checkbox
+                                key={index}
+                                name="options"
+                                value={option}
+                                isChecked={formik.values.options.includes(
+                                  option
+                                )}
+                                onChange={(e) => {
+                                  if (e.target.checked)
+                                    arrayHelpers.push(option);
+                                  else
+                                    arrayHelpers.remove(
+                                      formik.values.options.indexOf(option)
+                                    );
+                                }}
+                              >
+                                <Text as="span" className={styles.label}>
+                                  {option}
+                                </Text>
+                              </Checkbox>
+                            ))}
+                          </VStack>
+                        )}
+                      />
+                      <ErrorMessage
+                        name="options"
+                        component="Text"
+                        className={styles.error}
+                      />
                     </Box>
 
                     <Button w="98%" type="submit">
