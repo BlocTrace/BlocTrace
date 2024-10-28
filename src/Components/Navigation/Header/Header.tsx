@@ -125,7 +125,7 @@ export default function Header() {
           )}
         </Flex>
 
-        {/* Connect Button */}
+        {/* Connection Button */}
         <Flex fontSize="18px">
           <ConnectButton
             label="Sign Up / Login"
