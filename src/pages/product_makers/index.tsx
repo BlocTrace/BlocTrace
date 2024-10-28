@@ -35,7 +35,7 @@ export default function ProductMakers() {
               src="/product_makers_background.png"
               alt="Image"
               borderRadius="15px"
-              w="1200px"
+              w="900px"
             />
             <Box
               position="absolute"
@@ -50,7 +50,7 @@ export default function ProductMakers() {
                 color="brand.0"
                 fontWeight="medium"
                 size="lg"
-                p="32rem"
+                p="32rem 0rem 0rem 0rem"
                 mb="1rem"
                 textAlign="center"
               >

@@ -14,7 +14,7 @@ export default function Retailers() {
         <Flex justifyContent="center" direction="column">
           <Heading
             as="h2"
-            fontSize="5rem"
+            fontSize="3rem"
             color="brand.0"
             fontWeight="medium"
             size="lg"
@@ -35,7 +35,7 @@ export default function Retailers() {
               src="/retailers_background.png"
               alt="Image"
               borderRadius="15px"
-              w="1200px"
+              w="900px"
             />
             <Box
               position="absolute"
@@ -50,7 +50,7 @@ export default function Retailers() {
                 color="brand.0"
                 fontWeight="medium"
                 size="lg"
-                p="32rem"
+                p="32rem 0rem 0rem 0rem"
                 mb="10rem"
                 textAlign="center"
                 boxShadow="xl"

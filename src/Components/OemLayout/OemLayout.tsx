@@ -17,19 +17,22 @@ export default function OemLayout({ children }: { children: React.ReactNode }) {
       {/* this is the whole screen background*/}
       <div className={styles.flex_background}>
         <OemHeader />
-        <Container>
-          <Flex direction="column" minH="100vh" textAlign="center">
-            <Box
-              bg="transparent"
-              backgroundSize="cover"
-              backgroundAttachment="fixed"
-            >
-              {children}
-            </Box>
 
-            <Footer />
-          </Flex>
-        </Container>
+        <Flex
+          direction="column"
+          minH={`calc(100vh - 145px)`}
+          textAlign="center"
+        >
+          <Box
+            bg="transparent"
+            backgroundSize="cover"
+            backgroundAttachment="fixed"
+          >
+            {children}
+          </Box>
+
+          <Footer />
+        </Flex>
       </div>
     </>
   );

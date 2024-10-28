@@ -14,7 +14,7 @@ export default function Couriers() {
         <Flex justifyContent="center" direction="column">
           <Heading
             as="h2"
-            fontSize="5rem"
+            fontSize="3rem"
             color="brand.0"
             fontWeight="medium"
             size="lg"
@@ -24,12 +24,17 @@ export default function Couriers() {
           >
             Couriers / Shippers
           </Heading>
-          <Box display="flex"p= "2px 0px 10px 0px" justifyContent="center" alignItems="center">
+          <Box
+            display="flex"
+            p="2px 0px 10px 0px"
+            justifyContent="center"
+            alignItems="center"
+          >
             <Image
               src="/shipper_background.png"
               alt="Image"
               borderRadius="15px"
-              w="1200px"
+              w="900px"
             />
             <Box
               position="absolute"
@@ -44,9 +49,10 @@ export default function Couriers() {
                 color="brand.0"
                 fontWeight="medium"
                 size="lg"
-                p="32rem"
+                p="34rem 0rem 0rem 0rem"
                 mb="1rem"
                 textAlign="center"
+                textShadow="1px 1px 2px black, -1px -1px 2px black, 1px -1px 2px black, -1px 1px 2px black"
               >
                 COMING SOON
               </Heading>

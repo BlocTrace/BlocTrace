@@ -1,35 +1,13 @@
-//import styles from "../styles/Home.module.css";
-import OemLayout from "../../Components/OemLayout/OemLayout";
-import Head from "next/head";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Text,
-  NumberInput,
-  NumberInputField,
-  Spacer,
-  Spinner,
-  Image,
-  SimpleGrid,
-} from "@chakra-ui/react";
+// Import Statements
+import { Box, Flex, Heading, Image, SimpleGrid } from "@chakra-ui/react";
 import { NextPage } from "next";
+import Head from "next/head";
+import OemLayout from "../../Components/OemLayout/OemLayout";
 import DarkBackground from "Components/DarkBackground/DarkBackground";
-import {
-  useAccount,
-  useContractRead,
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
-import React, { useEffect } from "react";
-import { ethers } from "ethers";
 import useAppState from "../../hooks/useAppState";
 import CardButtonSmall from "Components/CardButtonSmall/CardButtonSmall";
 import styles from "./oems.module.css";
+import { useEffect } from "react";
 
 const Dashboard: NextPage = () => {
   const {
@@ -45,6 +23,44 @@ const Dashboard: NextPage = () => {
       fetchConsignmentData(user.profileId);
     }
   }, []);
+
+  // Card data array
+  const cardDataRow1 = [
+    {
+      href: "/oems/account",
+      imageSrc: "factory-icon.svg",
+      altText: "factory icon",
+      label: "Verify",
+    },
+    {
+      href: "/oems/account",
+      imageSrc: "verify_image.svg",
+      altText: "verify",
+      label: "Account Management",
+    },
+    {
+      href: "/oems/add_shippers",
+      imageSrc: "/shipping-icon.svg",
+      altText: "shipping image",
+      label: "Add Shippers",
+    },
+  ];
+
+  const cardDataRow2 = [
+    {
+      href: "/oems/create_batch",
+      imageSrc: "/circuitboard-icon.svg",
+      altText: "circuitboard image",
+      label: "Create Batch",
+    },
+    {
+      href: "/oems/manage_batch",
+      imageSrc: "retailer-icon.svg",
+      altText: "retailer image",
+      label: "Manage Batch",
+    },
+  ];
+
   return (
     <>
       <OemLayout>
@@ -53,194 +69,96 @@ const Dashboard: NextPage = () => {
           {/* <meta name="description" content="noindex,nofollow" /> */}
         </Head>
 
-        <Heading
-          className="heading1"
-          margin="7rem"
-          fontSize="5rem"
-          color="brand.0"
-          fontWeight="medium"
-          textAlign="center"
-        >
-          OEM Dashboard
-        </Heading>
-        <Flex
-          flexDirection={["column", "row"]}
-          justify="center"
-          gap="60px"
-          marginBottom="15rem"
-        >
-          {/* User balances */}
-          <DarkBackground>
-            <Flex flexDirection="row" padding="40px 20px 0px 2px">
-              {/* Left column */}
-              <Box flex="1">
-                <Heading className="heading1">Business Info</Heading>
-                <Flex flexDirection="row">
-                  {/* left inner*/}
-                  <Flex
-                    flexDirection="column"
-                    flex="1"
-                    justifyContent="flex-end"
-                    marginRight="1rem"
-                  >
-                    <Heading
-                      className="label"
-                      fontSize="28px"
-                      textAlign="right"
-                      fontWeight="normal"
-                    >
-                      Business Name:{" "}
-                    </Heading>
-                    <Heading
-                      className="label"
-                      fontSize="28px"
-                      textAlign="right"
-                      fontWeight="normal"
-                    >
-                      Wallet Address:{" "}
-                    </Heading>
-                    <Heading
-                      className="label"
-                      fontSize="28px"
-                      textAlign="right"
-                      fontWeight="normal"
-                    >
-                      No. Verfied Couriers:{" "}
-                    </Heading>
-                    <Heading
-                      className="label"
-                      fontSize="28px"
-                      textAlign="right"
-                      fontWeight="normal"
-                    >
-                      Batches Produced:{" "}
-                    </Heading>
-                    <Heading
-                      className="label"
-                      fontSize="28px"
-                      textAlign="right"
-                      fontWeight="normal"
-                    >
-                      Verification Status:{" "}
-                    </Heading>
+        <Flex flexDirection="column" align="center" maxWidth="1200px" mx="auto">
+          <Heading
+            className="heading1"
+            mt="5rem"
+            mb="3rem"
+            fontSize="4.5rem" // Adjusted size for main heading
+            color="brand.0"
+            fontWeight="medium"
+            textAlign="center"
+          >
+            OEM Dashboard
+          </Heading>
+
+          <Flex
+            flexDirection={["column", "row"]}
+            justify="center"
+            gap="60px"
+            marginBottom="0.1rem" // Adjusted margin to reduce unnecessary padding
+            w="100%"
+          >
+            <DarkBackground>
+              <Flex flexDirection="row" padding="5.75rem">
+                {/* Left column */}
+                <Box flex="1">
+                  <Heading className="heading1" fontSize="2.75rem" mb="1.5rem">
+                    Business Info
+                  </Heading>
+                  <Flex flexDirection="row">
+                    {/* Left Inner Column */}
+                    <Flex flexDirection="column" flex="1" justifyContent="flex-end" marginRight="1rem">
+                      {["Business Name", "Wallet Address", "No. Verified Couriers", "Batches Produced", "Verification Status"].map((label) => (
+                        <Heading
+                          key={label}
+                          className="label"
+                          fontSize="1.75rem" // Increased font size for labels
+                          textAlign="right"
+                          fontWeight="normal"
+                        >
+                          {label}:
+                        </Heading>
+                      ))}
+                    </Flex>
+                    {/* Right Inner Column */}
+                    <Flex flexDirection="column" flex="1" justifyContent="flex-start" marginRight="1rem">
+                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                        {userProfile?.business_name ?? "Account Not Setup"}
+                      </Heading>
+                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                        {user?.address ? `${user.address.slice(0, 6)}...${user.address.slice(-6)}` : "N/A"}
+                      </Heading>
+                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                        {userConsignmentData?.user_shippers_count ?? "N/A"}
+                      </Heading>
+                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                        {userConsignmentData?.total_consignments ?? "N/A"}
+                      </Heading>
+                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                        {isVerified ? "Verified" : "Unverified"}
+                      </Heading>
+                    </Flex>
                   </Flex>
-                  {/* right inner*/}
-                  <Flex
-                    flexDirection="column"
-                    flex="1"
-                    justifyContent="flex-start"
-                    marginRight="1rem"
-                  >
-                    <Heading
-                      className="heading2"
-                      fontSize="28px"
-                      textAlign="left"
-                      fontWeight="normal"
-                    >
-                      {userProfile?.business_name ?? "Account Not Setup"}
-                    </Heading>
-                    <Heading
-                      className="heading2"
-                      fontSize="28px"
-                      textAlign="left"
-                      fontWeight="normal"
-                    >
-                      {user?.address.slice(0, 6) +
-                        "..." +
-                        user?.address.slice(-6)}
-                    </Heading>
-                    <Heading
-                      className="heading2"
-                      fontSize="28px"
-                      textAlign="left"
-                      fontWeight="normal"
-                    >
-                      {userConsignmentData?.user_shippers_count}
-                    </Heading>
-                    <Heading
-                      className="heading2"
-                      fontSize="28px"
-                      textAlign="left"
-                      fontWeight="normal"
-                    >
-                      {userConsignmentData?.total_consignments}
-                    </Heading>
-                    <Heading
-                      className="heading2"
-                      fontSize="28px"
-                      textAlign="left"
-                      fontWeight="normal"
-                    >
-                      {isVerified ? <p>Verified</p> : <p>Unverified</p>}
-                    </Heading>
-                  </Flex>
-                </Flex>
-              </Box>
+                </Box>
 
-              {/* Right column */}
-              <Box flex="1">
-                <SimpleGrid className={styles.simpleGrid} columns={3}>
-                  <CardButtonSmall href="/oems/account">
-                    <Image
-                      className={styles.image}
-                      src="factory-icon.svg"
-                      alt="factory icon"
-                    />
-                    <Heading color="brand.20" margin="1.5rem" size="md">
-                      Verify
-                    </Heading>
-                  </CardButtonSmall>
+                {/* Right Column with Card Buttons */}
+                <Box flex="1.5">
+                  <SimpleGrid className={styles.simpleGrid} columns={3} spacing="1.5rem">
+                    {cardDataRow1.map((card, index) => (
+                      <CardButtonSmall key={index} href={card.href}>
+                        <Image className={styles.image} src={card.imageSrc} alt={card.altText} />
+                        <Heading color="brand.20" fontSize="1.5rem" margin="1.5rem" textAlign="center">
+                          {card.label}
+                        </Heading>
+                      </CardButtonSmall>
+                    ))}
+                  </SimpleGrid>
 
-                  <CardButtonSmall href="/oems/account">
-                    <Image
-                      className={styles.image}
-                      src="verify_image.svg"
-                      alt="verify"
-                    />
-                    <Heading color="brand.20" margin="0rem" size="md">
-                      Account Management
-                    </Heading>
-                  </CardButtonSmall>
-                  <CardButtonSmall href="/oems/add_shippers">
-                    <Image
-                      className={styles.image}
-                      src="/shipping-icon.svg"
-                      alt="shipping image"
-                      borderRadius="lg"
-                    />
-                    <Heading color="brand.20" margin="1.5rem" size="md">
-                      Add Shippers
-                    </Heading>
-                  </CardButtonSmall>
-                </SimpleGrid>
-
-                <SimpleGrid className={styles.simpleGrid} columns={3}>
-                  <CardButtonSmall href="/oems/create_batch">
-                    <Image
-                      className={styles.image}
-                      src="/circuitboard-icon.svg"
-                      alt="circuitboard image"
-                      borderRadius="lg"
-                    />
-                    <Heading color="brand.20" margin="1.5rem" size="md">
-                      Create Batch
-                    </Heading>
-                  </CardButtonSmall>
-
-                  <CardButtonSmall href="/oems/manage_batch">
-                    <Image
-                      className={styles.image}
-                      src="retailer-icon.svg"
-                      alt="retailer image"
-                    />
-                    <Heading color="brand.20" margin="1.3rem" size="md">
-                      Manage Batch
-                    </Heading>
-                  </CardButtonSmall>
-                </SimpleGrid>
-              </Box>
-            </Flex>
-          </DarkBackground>
+                  <SimpleGrid className={styles.simpleGrid} columns={3} spacing="1.5rem" mt="2rem">
+                    {cardDataRow2.map((card, index) => (
+                      <CardButtonSmall key={index} href={card.href}>
+                        <Image className={styles.image} src={card.imageSrc} alt={card.altText} />
+                        <Heading color="brand.20" fontSize="1.5rem" margin="1.5rem" textAlign="center">
+                          {card.label}
+                        </Heading>
+                      </CardButtonSmall>
+                    ))}
+                  </SimpleGrid>
+                </Box>
+              </Flex>
+            </DarkBackground>
+          </Flex>
         </Flex>
       </OemLayout>
     </>
