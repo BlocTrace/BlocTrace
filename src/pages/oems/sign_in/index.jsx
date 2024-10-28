@@ -4,7 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { signIn, useSession } from "next-auth/react";
 import { useAccount, useSignMessage, useNetwork } from "wagmi";
 import { useEffect } from "react";
-import { Box, Button, Flex, Heading, Image } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import DarkBackground from "Components/DarkBackground/DarkBackground";
 import OemLayout from "../../../Components/OemLayout/OemLayout";
 import Head from "next/head";
@@ -17,8 +17,8 @@ function SignIn() {
   const { push } = useRouter();
   const { requestChallengeAsync } = useAuthRequestChallengeEvm();
   const router = useRouter();
-  useEffect(() => {
 
+  useEffect(() => {
     const handleAuth = async () => {
       const { message } = await requestChallengeAsync({
         address: address,
@@ -27,17 +27,12 @@ function SignIn() {
 
       const signature = await signMessageAsync({ message });
 
-      // redirect user after success authentication to '/user' page
       const { url } = await signIn("moralis-auth", {
         message,
         signature,
         redirect: false,
-        callbackUrl: "/oems", // take the user to the oem dashboard
+        callbackUrl: "/oems",
       });
-      /**
-       * instead of using signIn(..., redirect: "/user")
-       * we get the url from callback and push it to the router to avoid page refreshing
-       */
       push(url);
     };
     if (status === "unauthenticated" && isConnected) {
@@ -53,52 +48,36 @@ function SignIn() {
       <OemLayout>
         <Head>
           <title>BlocTrace - Sign In</title>
-          {/* <meta name="description" content="noindex,nofollow" /> */}
         </Head>
-        <Flex justifyContent="center" direction="column" marginBottom="250px">
-          <Heading
-            as="h2"
-            fontSize="5rem"
-            color="brand.0"
-            fontWeight="medium"
-            size="lg"
-            p="8rem"
-            mb="1rem"
-            textAlign="center"
-          >
-            Sign In
-          </Heading>
-          <DarkBackground>
+        <Flex
+          justifyContent="center"
+          alignItems="center"
+          minHeight={`calc(100vh - 185px)`} // Adjust height based on header/footer
+          overflow="hidden" // Prevent extra horizontal scrolling
+        >
+          <DarkBackground maxW="200px" maxH="300px" p="4">
             <Flex
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
               textAlign="center"
+              padding="4rem"
+              borderRadius="md"
+              boxShadow="lg"
             >
-              <Heading
-                as="h2"
-                fontSize="4rem"
-                color="brand.0"
-                fontWeight="medium"
-                size="lg"
-                p="4rem 0rem 4rem 0"
-                mb="1rem"
-                textAlign="center"
-              >
-                Sign in to view & manage your account
-              </Heading>
               <Heading
                 as="h2"
                 fontSize="2rem"
                 color="brand.0"
                 fontWeight="medium"
-                size="lg"
-                p="4rem 0rem 4rem 0"
-                mb="1rem"
+                mb="1.5rem"
                 textAlign="center"
               >
-                <ConnectButton label="Sign In"></ConnectButton>
-              </Heading>
+                Sign in to view & manage your account
+              </Heading>{" "}
+              <Flex fontSize="20px" marginTop="3.5rem">
+                <ConnectButton label="Sign In" />
+              </Flex>
             </Flex>
           </DarkBackground>
         </Flex>

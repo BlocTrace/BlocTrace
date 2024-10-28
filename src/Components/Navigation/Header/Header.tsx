@@ -72,7 +72,7 @@ export default function Header() {
         borderBottom: scrolled ? "1px solid #332018" : "none",
       }}
       px={{ base: 4, md: 8 }}
-      py={4}
+      py={8}
       alignItems="center"
     >
       <Flex width="100%" alignItems="center" justifyContent="space-between">
@@ -128,6 +128,7 @@ export default function Header() {
         {/* Connect Button */}
         <Flex fontSize="18px">
           <ConnectButton
+            label="Sign Up / Login"
             showBalance={{
               smallScreen: false,
               largeScreen: true,

@@ -69,7 +69,7 @@ const Dashboard: NextPage = () => {
           {/* <meta name="description" content="noindex,nofollow" /> */}
         </Head>
 
-        <Flex flexDirection="column" align="center" maxWidth="1200px" mx="auto">
+        <Flex flexDirection="column" align="center" mx="auto">
           <Heading
             className="heading1"
             mt="5rem"
@@ -98,8 +98,19 @@ const Dashboard: NextPage = () => {
                   </Heading>
                   <Flex flexDirection="row">
                     {/* Left Inner Column */}
-                    <Flex flexDirection="column" flex="1" justifyContent="flex-end" marginRight="1rem">
-                      {["Business Name", "Wallet Address", "No. Verified Couriers", "Batches Produced", "Verification Status"].map((label) => (
+                    <Flex
+                      flexDirection="column"
+                      flex="1"
+                      justifyContent="flex-end"
+                      marginRight="1rem"
+                    >
+                      {[
+                        "Business Name",
+                        "Wallet Address",
+                        "No. Verified Couriers",
+                        "Batches Produced",
+                        "Verification Status",
+                      ].map((label) => (
                         <Heading
                           key={label}
                           className="label"
@@ -112,20 +123,54 @@ const Dashboard: NextPage = () => {
                       ))}
                     </Flex>
                     {/* Right Inner Column */}
-                    <Flex flexDirection="column" flex="1" justifyContent="flex-start" marginRight="1rem">
-                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                    <Flex
+                      flexDirection="column"
+                      flex="1"
+                      justifyContent="flex-start"
+                      marginRight="1rem"
+                    >
+                      <Heading
+                        className="heading2"
+                        fontSize="1.75rem"
+                        textAlign="left"
+                        fontWeight="normal"
+                      >
                         {userProfile?.business_name ?? "Account Not Setup"}
                       </Heading>
-                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
-                        {user?.address ? `${user.address.slice(0, 6)}...${user.address.slice(-6)}` : "N/A"}
+                      <Heading
+                        className="heading2"
+                        fontSize="1.75rem"
+                        textAlign="left"
+                        fontWeight="normal"
+                      >
+                        {user?.address
+                          ? `${user.address.slice(0, 6)}...${user.address.slice(
+                              -6
+                            )}`
+                          : "N/A"}
                       </Heading>
-                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                      <Heading
+                        className="heading2"
+                        fontSize="1.75rem"
+                        textAlign="left"
+                        fontWeight="normal"
+                      >
                         {userConsignmentData?.user_shippers_count ?? "N/A"}
                       </Heading>
-                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                      <Heading
+                        className="heading2"
+                        fontSize="1.75rem"
+                        textAlign="left"
+                        fontWeight="normal"
+                      >
                         {userConsignmentData?.total_consignments ?? "N/A"}
                       </Heading>
-                      <Heading className="heading2" fontSize="1.75rem" textAlign="left" fontWeight="normal">
+                      <Heading
+                        className="heading2"
+                        fontSize="1.75rem"
+                        textAlign="left"
+                        fontWeight="normal"
+                      >
                         {isVerified ? "Verified" : "Unverified"}
                       </Heading>
                     </Flex>
@@ -133,23 +178,50 @@ const Dashboard: NextPage = () => {
                 </Box>
 
                 {/* Right Column with Card Buttons */}
-                <Box flex="1.5">
-                  <SimpleGrid className={styles.simpleGrid} columns={3} spacing="1.5rem">
+                <Box flex="1.7">
+                  <SimpleGrid
+                    className={styles.simpleGrid}
+                    columns={3}
+                    spacing="1.5rem"
+                  >
                     {cardDataRow1.map((card, index) => (
                       <CardButtonSmall key={index} href={card.href}>
-                        <Image className={styles.image} src={card.imageSrc} alt={card.altText} />
-                        <Heading color="brand.20" fontSize="1.5rem" margin="1.5rem" textAlign="center">
+                        <Image
+                          className={styles.image}
+                          src={card.imageSrc}
+                          alt={card.altText}
+                        />
+                        <Heading
+                          color="brand.20"
+                          fontSize="1.5rem"
+                          margin="1.5rem"
+                          textAlign="center"
+                        >
                           {card.label}
                         </Heading>
                       </CardButtonSmall>
                     ))}
                   </SimpleGrid>
 
-                  <SimpleGrid className={styles.simpleGrid} columns={3} spacing="1.5rem" mt="2rem">
+                  <SimpleGrid
+                    className={styles.simpleGrid}
+                    columns={3}
+                    spacing="1.5rem"
+                    mt="2rem"
+                  >
                     {cardDataRow2.map((card, index) => (
                       <CardButtonSmall key={index} href={card.href}>
-                        <Image className={styles.image} src={card.imageSrc} alt={card.altText} />
-                        <Heading color="brand.20" fontSize="1.5rem" margin="1.5rem" textAlign="center">
+                        <Image
+                          className={styles.image}
+                          src={card.imageSrc}
+                          alt={card.altText}
+                        />
+                        <Heading
+                          color="brand.20"
+                          fontSize="1.5rem"
+                          margin="1.5rem"
+                          textAlign="center"
+                        >
                           {card.label}
                         </Heading>
                       </CardButtonSmall>
